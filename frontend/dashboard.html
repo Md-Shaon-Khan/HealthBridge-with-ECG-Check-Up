@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>HealthBridge | Clinical Command Center</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="dashboard-body">
+    <aside class="sidebar">
+      <div class="hamburger" id="mobileHamburger">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="sidebar-brand">
+        <div class="brand-mark">HB</div>
+        <div class="brand-text">
+          <h1>Health<span>Bridge</span></h1>
+          <p>Clinical Intelligence</p>
+        </div>
+      </div>
+      <div class="user-identity-card">
+        <img
+          src="https://ui-avatars.com/api/?background=8686AC&color=fff&bold=true"
+          id="userAvatar"
+          alt="Profile"
+        />
+        <div class="identity-details">
+          <h4 id="displayUserName">Loading...</h4>
+          <p id="displayUserId">ID: ----</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav">
+        <div id="patientLinks">
+          <a href="#" class="nav-link" onclick="showSection('predictor')"
+            >AI Predictor</a
+          >
+          <a href="#" class="nav-link" onclick="showSection('reports')"
+            >My Reports</a
+          >
+          <a href="#" class="nav-link" onclick="showSection('chatbot')"
+            >Medical Assistant</a
+          >
+          <a href="#" class="nav-link" onclick="showSection('ecgtest')"
+            >ECG Test</a
+          >
+        </div>
+        <div id="doctorLinks" class="hidden">
+          <a href="#" class="nav-link" onclick="showSection('overview')"
+            >Overview</a
+          >
+          <a href="#" class="nav-link" onclick="showSection('manage-patients')"
+            >Patient Checkup</a
+          >
+        </div>
+        <a
+          href="index.html"
+          class="nav-link logout"
+          onclick="localStorage.clear()"
+          >Terminate Session</a
+        >
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="context-title">
+          <span class="label-heading">Workspace</span>
+          <h2 id="sectionTitle">AI Predictor</h2>
+        </div>
+        <div class="role-badge" id="roleBadge">...</div>
+      </header>
+
+      <!-- OVERVIEW -->
+      <section id="overview" class="content-section hidden">
+        <div id="doctorStats" class="stats-grid hidden">
+          <div class="summary-card">
+            <span class="label-heading">Consultation Integrity</span>
+            <p>Total Registered: <span id="totalPatients">0</span></p>
+            <p>Total Checkups: <span id="totalChecks">0</span></p>
+          </div>
+          <div class="summary-card">
+            <span class="label-heading">Messaging Status</span>
+            <p>Responded: <span id="respondedCount">0</span></p>
+            <p>Not Responded: <span id="pendingCount">0</span></p>
+          </div>
+        </div>
+        <div id="patientStats" class="stats-grid hidden">
+          <div class="summary-card">
+            <span class="label-heading">Current Status</span>
+            <div id="currentDiseaseRisk">
+              <p>Latest Disease: <span id="latestDisease">—</span></p>
+              <p>Risk: <span id="latestRisk">—</span>%</p>
+            </div>
+          </div>
+          <div class="summary-card">
+            <span class="label-heading">Disease Frequency</span>
+            <div id="diseaseRank" class="rank-list"></div>
+          </div>
+        </div>
+        <div
+          id="doctorPatientList"
+          class="patient-list-card hidden"
+          style="margin-top: 2rem"
+        >
+          <span class="label-heading">Patient Status Overview</span>
+          <h4>Latest Disease & Risk by Patient</h4>
+          <div id="patientListContainer" class="scrollable-list"></div>
+        </div>
+        <div class="chart-shell">
+          <div class="shell-header">
+            <span class="label-heading">Neural Risk Trend</span>
+            <h4>Risk Probability Progression</h4>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="healthChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- AI PREDICTOR -->
+      <section id="predictor" class="content-section">
+        <div class="shell-header">
+          <span class="label-heading">AI Clinical Predictor</span>
+          <h4>Enter your current vitals & symptoms</h4>
+        </div>
+        <div class="predictor-form">
+          <form id="predictForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Temperature (°C)</label>
+                <input type="number" step="0.1" id="temperature" required />
+              </div>
+              <div class="form-group">
+                <label>Heart Rate (BPM)</label>
+                <input type="number" step="1" id="heart_rate" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>BP Systolic</label>
+                <input type="number" step="1" id="bp_sys" required />
+              </div>
+              <div class="form-group">
+                <label>BP Diastolic</label>
+                <input type="number" step="1" id="bp_dia" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Humidity (%)</label>
+                <input type="number" step="1" id="humidity" required />
+              </div>
+            </div>
+            <div class="form-row symptoms-group">
+              <label>Symptoms (0–10 scale):</label>
+              <div class="symptom-inputs">
+                <div>
+                  <label>🌡️ Fever</label
+                  ><input
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="1"
+                    id="fever"
+                    value="0"
+                  />
+                </div>
+                <div>
+                  <label>🤧 Cough</label
+                  ><input
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="1"
+                    id="cough"
+                    value="0"
+                  />
+                </div>
+                <div>
+                  <label>💔 Chest Pain</label
+                  ><input
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="1"
+                    id="chest_pain"
+                    value="0"
+                  />
+                </div>
+                <div>
+                  <label>🌬️ Shortness of Breath</label
+                  ><input
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="1"
+                    id="shortness_breath"
+                    value="0"
+                  />
+                </div>
+                <div>
+                  <label>😴 Fatigue</label
+                  ><input
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="1"
+                    id="fatigue"
+                    value="0"
+                  />
+                </div>
+                <div>
+                  <label>🤕 Headache</label
+                  ><input
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="1"
+                    id="headache"
+                    value="0"
+                  />
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn-send">Predict & Save</button>
+          </form>
+          <div id="predictionResult" class="instruction-terminal hidden">
+            <h4>Prediction Result</h4>
+            <p><strong>Disease:</strong> <span id="predDisease"></span></p>
+            <p><strong>Risk Score:</strong> <span id="predScore"></span>%</p>
+            <p>
+              <strong>Suggested Drugs:</strong> <span id="predDrugs"></span>
+            </p>
+            <p>
+              <strong>Suggested Foods:</strong> <span id="predFoods"></span>
+            </p>
+            <p><strong>Routine:</strong> <span id="predRoutine"></span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- MY REPORTS -->
+      <section id="reports" class="content-section hidden">
+        <div class="shell-header">
+          <span class="label-heading">Clinical Records</span>
+          <h4>Diagnostic History (Latest First)</h4>
+        </div>
+        <div id="doctorMessageArea" class="instruction-terminal hidden">
+          <label class="label-heading">Message from Doctor</label>
+          <p id="feedbackText">No instructions yet.</p>
+        </div>
+        <div id="patientReportList" class="report-grid"></div>
+      </section>
+
+      <!-- CHATBOT -->
+      <section id="chatbot" class="content-section hidden">
+        <div class="shell-header">
+          <span class="label-heading">Medical Assistant</span>
+          <h4>Chat with AI for health guidance</h4>
+        </div>
+        <div class="chat-container">
+          <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+              <p>
+                Hello! I'm your medical assistant. How can I help you today?
+              </p>
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <input
+              type="text"
+              id="chatInput"
+              placeholder="Type your question..."
+            />
+            <button class="btn-send" onclick="sendChatMessage()">Send</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ECG TEST -->
+      <section id="ecgtest" class="content-section hidden">
+        <div class="shell-header">
+          <span class="label-heading">ECG Diagnostic Module</span>
+          <h4>Upload your ECG signal file for AI analysis</h4>
+        </div>
+        <div class="ecg-upload-card">
+          <div
+            class="ecg-dropzone"
+            id="ecgDropzone"
+            ondragover="ecgDragOver(event)"
+            ondragleave="ecgDragLeave(event)"
+            ondrop="ecgDrop(event)"
+          >
+            <div class="ecg-dropzone-icon">
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 32V36C8 38.2 9.8 40 12 40H36C38.2 40 40 38.2 40 36V32"
+                  stroke="#8686AC"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M24 8V28M24 8L16 16M24 8L32 16"
+                  stroke="#8686AC"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <p class="ecg-dropzone-title">Drag & Drop your ECG file here</p>
+            <p class="ecg-dropzone-sub">
+              Supports <strong>.csv</strong> and <strong>.txt</strong> formats
+              only
+            </p>
+            <label for="ecgFileInput" class="ecg-browse-btn">Browse File</label>
+            <input
+              type="file"
+              id="ecgFileInput"
+              accept=".csv,.txt"
+              style="display: none"
+              onchange="handleEcgFileSelect(event)"
+            />
+          </div>
+          <div id="ecgFileInfo" class="ecg-file-info hidden">
+            <div class="ecg-file-meta">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 2H12L16 6V18H4V2Z"
+                  stroke="#8686AC"
+                  stroke-width="1.5"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 2V6H16"
+                  stroke="#8686AC"
+                  stroke-width="1.5"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span id="ecgFileName" class="ecg-filename"
+                >No file selected</span
+              >
+              <span id="ecgFileSize" class="ecg-file-size-badge"></span>
+            </div>
+            <button class="ecg-remove-btn" onclick="clearEcgFile()">
+              ✕ Remove
+            </button>
+          </div>
+          <div id="ecgTimeInputArea" class="ecg-time-input-area hidden">
+            <div class="ecg-time-input-card">
+              <div class="ecg-time-icon">🕐</div>
+              <div class="ecg-time-fields">
+                <label class="label-heading">ECG Recording Start Time</label>
+                <p class="ecg-time-desc">
+                  When did you start recording this ECG signal from the body?
+                </p>
+                <input
+                  type="datetime-local"
+                  id="ecgStartTime"
+                  class="ecg-time-picker"
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            id="ecgAnalyzeBtn"
+            class="btn-send ecg-analyze-btn hidden"
+            onclick="analyzeEcg()"
+          >
+            ⚡ Analyze ECG Signal
+          </button>
+        </div>
+        <div id="ecgStatusBar" class="ecg-status-bar hidden">
+          <div class="ecg-status-pulse"></div>
+          <span id="ecgStatusText">Processing signal...</span>
+        </div>
+        <div id="ecgSignalCard" class="ecg-signal-card hidden">
+          <div class="shell-header">
+            <span class="label-heading">Signal Overview</span>
+            <h4 id="ecgSignalTitle">ECG Waveform</h4>
+          </div>
+          <div class="ecg-graph-label">
+            <span class="ecg-graph-tag">Graph 1</span
+            ><span class="ecg-graph-desc">Full ECG Recording</span>
+          </div>
+          <div class="ecg-chart-wrapper">
+            <canvas id="ecgWaveformChart"></canvas>
+          </div>
+          <div class="ecg-graph-label" style="margin-top: 1.5rem">
+            <span class="ecg-graph-tag ecg-graph-tag-b">Graph 2</span
+            ><span class="ecg-graph-desc" id="ecgSegLabel1"
+              >Random 10s Segment</span
+            >
+          </div>
+          <div class="ecg-chart-wrapper ecg-chart-wrapper-seg">
+            <canvas id="ecgSegChart1"></canvas>
+          </div>
+          <div class="ecg-graph-label" style="margin-top: 1.5rem">
+            <span class="ecg-graph-tag ecg-graph-tag-c">Graph 3</span
+            ><span class="ecg-graph-desc" id="ecgSegLabel2"
+              >Random 10s Segment</span
+            >
+          </div>
+          <div class="ecg-chart-wrapper ecg-chart-wrapper-seg">
+            <canvas id="ecgSegChart2"></canvas>
+          </div>
+          <div class="ecg-stats-row" id="ecgStatsRow">
+            <div class="ecg-stat-chip">
+              <span class="ecg-stat-label">Total Samples</span
+              ><span class="ecg-stat-value" id="ecgStatSamples">—</span>
+            </div>
+            <div class="ecg-stat-chip">
+              <span class="ecg-stat-label">Duration</span
+              ><span class="ecg-stat-value" id="ecgStatDuration">—</span>
+            </div>
+            <div class="ecg-stat-chip">
+              <span class="ecg-stat-label">Segments (10s)</span
+              ><span class="ecg-stat-value" id="ecgStatSegments">—</span>
+            </div>
+            <div class="ecg-stat-chip">
+              <span class="ecg-stat-label">Sampling Rate</span
+              ><span class="ecg-stat-value" id="ecgStatSR">360 Hz</span>
+            </div>
+          </div>
+        </div>
+        <div id="ecgResultCard" class="ecg-result-card hidden">
+          <div class="shell-header">
+            <span class="label-heading">AI Analysis Report</span>
+            <h4>ECG Diagnostic Results</h4>
+          </div>
+          <div id="ecgVerdictBanner" class="ecg-verdict-banner">
+            <div class="ecg-verdict-left">
+              <span class="ecg-verdict-label">Overall Assessment</span>
+              <h3 id="ecgVerdictCondition">—</h3>
+            </div>
+            <div class="ecg-verdict-right">
+              <div class="ecg-verdict-stat">
+                <span>Avg Probability</span
+                ><strong id="ecgVerdictProb">—</strong>
+              </div>
+              <div class="ecg-verdict-stat">
+                <span>Normal Segments</span
+                ><strong id="ecgVerdictNormal">—</strong>
+              </div>
+              <div class="ecg-verdict-stat">
+                <span>Abnormal Segments</span
+                ><strong id="ecgVerdictAbnormal">—</strong>
+              </div>
+            </div>
+          </div>
+          <div class="ecg-result-charts-grid">
+            <div class="ecg-chart-shell">
+              <label class="label-heading">Condition Probability</label>
+              <div class="ecg-bar-chart-wrapper">
+                <canvas id="ecgProbChart"></canvas>
+              </div>
+            </div>
+            <div class="ecg-chart-shell">
+              <label class="label-heading">Confidence Over Time</label>
+              <div class="ecg-bar-chart-wrapper">
+                <canvas id="ecgConfChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div id="ecgAbnormalTimeLog" class="ecg-abnormal-time-log hidden">
+            <label class="label-heading"
+              >⚠️ Abnormal Events — Real Clock Time</label
+            >
+            <p class="ecg-abnormal-intro" id="ecgAbnormalIntro"></p>
+            <div id="ecgAbnormalTimeBody" class="ecg-abnormal-grid"></div>
+          </div>
+          <div class="ecg-segment-log">
+            <label class="label-heading">Segment-by-Segment Log</label>
+            <div class="ecg-table-wrapper">
+              <table class="ecg-table" id="ecgSegmentTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Start (s)</th>
+                    <th>End (s)</th>
+                    <th id="ecgTableTimeHeader">Clock Time</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="ecgSegmentTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <button class="btn-send ecg-save-btn" onclick="saveEcgReport()">
+            💾 Save Report to My Records
+          </button>
+          <div id="ecgSaveConfirm" class="ecg-save-confirm hidden">
+            ✅ ECG report saved successfully to My Reports.
+          </div>
+        </div>
+      </section>
+
+      <!-- PATIENT CHECKUP (DOCTOR) -->
+      <section id="manage-patients" class="content-section hidden">
+        <div class="split-viewport">
+          <div class="analysis-panel" id="sideA">
+            <div class="panel-search">
+              <input
+                type="text"
+                id="inputA"
+                placeholder="SEARCH_PATIENT_A..."
+                onkeyup="liveSearch('A')"
+              />
+            </div>
+            <div id="listA" class="scrollable-registry"></div>
+            <div id="dataA" class="panel-details hidden">
+              <h4 id="nameA" class="patient-title">Patient A</h4>
+              <div class="clinical-metric-grid">
+                <div class="graph-shell">
+                  <label>Temperature Trend</label
+                  ><canvas id="chartA_temp"></canvas>
+                </div>
+                <div class="graph-shell">
+                  <label>Blood Pressure</label><canvas id="chartA_bp"></canvas>
+                </div>
+                <div class="graph-shell">
+                  <label>Heart Rate</label><canvas id="chartA_hr"></canvas>
+                </div>
+                <div class="graph-shell">
+                  <label>Symptoms Count</label
+                  ><canvas id="chartA_symptoms"></canvas>
+                </div>
+              </div>
+              <div class="clinical-history-vault">
+                <label class="label-heading"
+                  >Current Meds & Food (History)</label
+                >
+                <div id="historyA" class="history-scroll"></div>
+              </div>
+              <div class="clinical-history-vault" style="margin-top: 1rem">
+                <label class="label-heading">ECG Test Reports</label>
+                <div id="ecgHistoryA" class="history-scroll">
+                  <p>No ECG reports yet.</p>
+                </div>
+              </div>
+              <div class="instruction-terminal">
+                <textarea
+                  id="msgA"
+                  placeholder="Send message to patient..."
+                ></textarea
+                ><button class="btn-send" onclick="sendAdvice('A')">
+                  Send Message
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="analysis-panel" id="sideB">
+            <div class="panel-search">
+              <input
+                type="text"
+                id="inputB"
+                placeholder="SEARCH_PATIENT_B..."
+                onkeyup="liveSearch('B')"
+              />
+            </div>
+            <div id="listB" class="scrollable-registry"></div>
+            <div id="dataB" class="panel-details hidden">
+              <h4 id="nameB" class="patient-title">Patient B</h4>
+              <div class="clinical-metric-grid">
+                <div class="graph-shell">
+                  <label>Temperature Trend</label
+                  ><canvas id="chartB_temp"></canvas>
+                </div>
+                <div class="graph-shell">
+                  <label>Blood Pressure</label><canvas id="chartB_bp"></canvas>
+                </div>
+                <div class="graph-shell">
+                  <label>Heart Rate</label><canvas id="chartB_hr"></canvas>
+                </div>
+                <div class="graph-shell">
+                  <label>Symptoms Count</label
+                  ><canvas id="chartB_symptoms"></canvas>
+                </div>
+              </div>
+              <div class="clinical-history-vault">
+                <label class="label-heading"
+                  >Current Meds & Food (History)</label
+                >
+                <div id="historyB" class="history-scroll"></div>
+              </div>
+              <div class="clinical-history-vault" style="margin-top: 1rem">
+                <label class="label-heading">ECG Test Reports</label>
+                <div id="ecgHistoryB" class="history-scroll">
+                  <p>No ECG reports yet.</p>
+                </div>
+              </div>
+              <div class="instruction-terminal">
+                <textarea
+                  id="msgB"
+                  placeholder="Send message to patient..."
+                ></textarea
+                ><button class="btn-send" onclick="sendAdvice('B')">
+                  Send Message
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Mobile hamburger toggle
+      const hamburger = document.getElementById("mobileHamburger");
+      const sidebarNav = document.getElementById("sidebarNav");
+      if (hamburger && sidebarNav) {
+        hamburger.addEventListener("click", () => {
+          sidebarNav.classList.toggle("active");
+        });
+        document.addEventListener("click", (e) => {
+          if (
+            window.innerWidth <= 768 &&
+            sidebarNav.classList.contains("active") &&
+            !sidebarNav.contains(e.target) &&
+            !hamburger.contains(e.target)
+          ) {
+            sidebarNav.classList.remove("active");
+          }
+        });
+      }
+
+      // Auto-add icons to Drugs & Foods in prediction results and reports
+      function addDrugFoodIcons() {
+        const predDrugs = document.getElementById("predDrugs");
+        const predFoods = document.getElementById("predFoods");
+        if (
+          predDrugs &&
+          predDrugs.innerText &&
+          !predDrugs.querySelector(".drug-icon")
+        ) {
+          predDrugs.innerHTML = "💊 " + predDrugs.innerText;
+        }
+        if (
+          predFoods &&
+          predFoods.innerText &&
+          !predFoods.querySelector(".food-icon")
+        ) {
+          predFoods.innerHTML = "🥗 " + predFoods.innerText;
+        }
+        // Also scan report cards
+        document
+          .querySelectorAll(".report-grid .summary-card")
+          .forEach((card) => {
+            const drugsText = card.querySelector("p:first-of-type");
+            if (
+              drugsText &&
+              drugsText.innerText.includes("Drugs") &&
+              !drugsText.innerHTML.includes("💊")
+            ) {
+              drugsText.innerHTML = drugsText.innerHTML.replace(
+                "Drugs:",
+                "💊 Drugs:",
+              );
+            }
+            const foodsText = card.querySelector("p:nth-of-type(2)");
+            if (
+              foodsText &&
+              foodsText.innerText.includes("Foods") &&
+              !foodsText.innerHTML.includes("🥗")
+            ) {
+              foodsText.innerHTML = foodsText.innerHTML.replace(
+                "Foods:",
+                "🥗 Foods:",
+              );
+            }
+          });
+      }
+      // Observe DOM changes to keep icons
+      const observer = new MutationObserver(() => addDrugFoodIcons());
+      observer.observe(document.body, { childList: true, subtree: true });
+      addDrugFoodIcons();
+    </script>
+    <script src="dashboard.js"></script>
+  </body>
+</html>

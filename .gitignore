@@ -1,0 +1,33 @@
+@"
+venv/
+Run File/
+__pycache__/
+*.pkl
+*.h5
+*.keras
+*.dll
+*.pyd
+*.so
+*.zip
+.env
+ECG Saved Model Download from Kaggle/
+Main Model Train/
+Health Dataset.csv
+node_modules/
+*.pyc
+.DS_Store
+"@ | Out-File -Encoding utf8 .gitignore
+
+# Data (DON'T upload)
+Database/
+ECG/raw_output/
+ECG/cleaned_output/
+
+# Images (optional, if big)
+frontend/pages/
+
+# Large files
+*.csv
+*.jpg
+*.png
+*.pdf

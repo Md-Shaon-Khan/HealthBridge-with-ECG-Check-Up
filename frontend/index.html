@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>HealthBridge | Clinical Intelligence Systems</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ═══ NAVBAR ═══ -->
+    <nav class="navbar">
+      <div class="logo" onclick="location.href = 'index.html'">
+        <span class="logo-hb">HB</span> Health<span>Bridge</span>
+      </div>
+
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+
+      <ul class="nav-links" id="navLinks">
+        <li class="nav-item">
+          <a href="#">Disease</a>
+          <div class="mega-menu">
+            <div class="mega-menu-content">
+              <h3 class="menu-title">Medical Conditions and Diseases</h3>
+              <div class="mega-menu-grid" id="diseaseGrid"></div>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#">Services</a>
+          <div class="dropdown">
+            <a href="pages/services/heart-risk.html">Heart Risk Analysis</a>
+            <a href="pages/services/fever.html">Febrile Respiratory</a>
+            <a href="pages/services/hypertension.html">Hypertension</a>
+            <a href="pages/services/hypotension.html">Hypotension</a>
+            <a href="pages/services/normal.html">General Screening</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="pages/wellness.html">Wellness</a></li>
+        <li class="nav-item"><a href="pages/primary-drugs.html">Drugs</a></li>
+        <li class="nav-item"><a href="pages/foods.html">Nutrition</a></li>
+        <li class="nav-item"><a href="pages/contact.html">Support</a></li>
+      </ul>
+    </nav>
+
+    <!-- ═══ HERO ═══ -->
+    <header class="hero">
+      <div class="hero-sidebar-accent"></div>
+      <div class="hero-content">
+        <div class="hero-header-stack">
+          <h1>Clinical Intelligence.<br /><span>Smart Diagnostics.</span></h1>
+        </div>
+        <div class="hero-body-grid">
+          <p>
+            Compassionate, evidence‑based care. Our platform combines clinical
+            expertise with advanced data to support better health outcomes for
+            every patient.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary-sharp" id="initSystemBtn">
+              Initialize System
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section brand">
+          <div class="brand-mark">HB</div>
+          <h2>Health<span>Bridge</span></h2>
+          <p>
+            Providing encrypted diagnostic insights and clinical analytics for
+            standardized healthcare environments.
+          </p>
+        </div>
+        <div class="footer-section">
+          <span class="label-heading">Quick Links</span>
+          <ul>
+            <li><a href="pages/wellness.html">Wellness Hub</a></li>
+            <li><a href="pages/primary-drugs.html">Drug Database</a></li>
+            <li><a href="pages/foods.html">Nutritional Guide</a></li>
+            <li><a href="pages/contact.html">System Support</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <span class="label-heading">Services</span>
+          <ul>
+            <li>
+              <a href="pages/services/heart-risk.html">Heart Analytics</a>
+            </li>
+            <li>
+              <a href="pages/services/hypertension.html">Arterial Tension</a>
+            </li>
+            <li><a href="pages/services/fever.html">Febrile Modules</a></li>
+            <li><a href="pages/services/normal.html">Base Screening</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 HealthBridge Clinical Systems. Encrypted Session //
+          DH-NODE-01
+        </p>
+      </div>
+    </footer>
+
+    <!-- ═══ AUTH MODAL ═══ -->
+    <div id="authModal" class="modal">
+      <div class="modal-content auth-modal-content">
+        <div class="auth-tabs">
+          <button
+            class="auth-tab active"
+            id="tabAuth"
+            onclick="switchTab('auth')"
+          >
+            Authentication
+          </button>
+          <button class="auth-tab" id="tabReg" onclick="switchTab('reg')">
+            Registration
+          </button>
+        </div>
+
+        <!-- Sign In Panel -->
+        <div class="auth-panel" id="panelAuth">
+          <h3>Access Portal</h3>
+          <p class="auth-subtitle">
+            Enter institutional credentials to proceed.
+          </p>
+
+          <label class="field-label">INSTITUTIONAL ID</label>
+          <input
+            type="text"
+            id="loginId"
+            placeholder="PAT-0000 / DOC-0000"
+            autocomplete="off"
+          />
+
+          <label class="field-label">PASSWORD</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" />
+
+          <button id="signInBtn">Sign In</button>
+          <button class="close-modal" id="closeModalBtn">Cancel</button>
+
+          <div class="switch-hint">
+            Don't have an account?
+            <span onclick="switchTab('reg')">Register here</span>
+          </div>
+        </div>
+
+        <!-- Registration Panel -->
+        <div class="auth-panel hidden" id="panelReg">
+          <h3>Create Account</h3>
+          <p class="auth-subtitle">
+            Enter institutional credentials to proceed.
+          </p>
+
+          <label class="field-label">ACCOUNT TYPE</label>
+          <div class="toggle-group">
+            <button
+              class="toggle-btn active"
+              id="btnPatient"
+              onclick="setAccountType('patient')"
+            >
+              Patient
+            </button>
+            <button
+              class="toggle-btn"
+              id="btnStaff"
+              onclick="setAccountType('staff')"
+            >
+              Medical Staff
+            </button>
+          </div>
+
+          <label class="field-label">INSTITUTIONAL ID</label>
+          <input
+            type="text"
+            id="regId"
+            placeholder="PAT-0000"
+            autocomplete="off"
+          />
+
+          <label class="field-label">FULL NAME</label>
+          <input type="text" id="regName" placeholder="Surname, First Name" />
+
+          <label class="field-label">EMAIL ADDRESS</label>
+          <input
+            type="email"
+            id="regEmail"
+            placeholder="staff@healthbridge.org"
+          />
+
+          <label class="field-label">PHONE NUMBER</label>
+          <input type="tel" id="regPhone" placeholder="+8801XXXXXXXXX" />
+
+          <label class="field-label">PASSWORD</label>
+          <input type="password" id="regPassword" placeholder="••••••••" />
+
+          <button id="signUpBtn">Sign Up</button>
+          <button class="close-modal" id="closeRegBtn">Cancel</button>
+
+          <div class="switch-hint">
+            Already have an account?
+            <span onclick="switchTab('auth')">Sign in here</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

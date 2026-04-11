@@ -117,7 +117,7 @@ function showSection(sectionId) {
 async function loadPatientOverview() {
     const patientId = localStorage.getItem('userId');
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/reports/${patientId}`);
+        const response = await fetch(`https://ecg-4ggp.onrender.com/api/reports/${patientId}`);
         const data = await response.json();
 
         if (document.getElementById('totalVisits'))
@@ -155,7 +155,7 @@ async function loadPatientOverview() {
 // ─────────────────────────────────────────────────────────────
 async function loadDoctorOverview() {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/doctor-stats');
+        const response = await fetch('https://ecg-4ggp.onrender.com/api/doctor-stats');
         const stats = await response.json();
 
         document.getElementById('totalPatients').innerText = stats.total_patients;
@@ -163,7 +163,7 @@ async function loadDoctorOverview() {
         document.getElementById('respondedCount').innerText = stats.responded;
         document.getElementById('pendingCount').innerText = stats.pending;
 
-        const patientRes = await fetch('http://127.0.0.1:8000/api/doctor-patient-list');
+        const patientRes = await fetch('https://ecg-4ggp.onrender.com/api/doctor-patient-list');
         const patients = await patientRes.json();
         const container = document.getElementById('patientListContainer');
         container.innerHTML = patients.map(p => `
@@ -188,14 +188,14 @@ async function loadReports() {
     const reportList = document.getElementById('patientReportList');
 
     try {
-        const feedbackRes = await fetch(`http://127.0.0.1:8000/api/get-feedback/${patientId}`);
+        const feedbackRes = await fetch(`https://ecg-4ggp.onrender.com/api/get-feedback/${patientId}`);
         const feedback = await feedbackRes.json();
         if (feedback && feedback.message) {
             document.getElementById('doctorMessageArea').classList.remove('hidden');
             document.getElementById('feedbackText').innerText = `"${feedback.message}"`;
         }
 
-        const response = await fetch(`http://127.0.0.1:8000/api/reports/${patientId}`);
+        const response = await fetch(`https://ecg-4ggp.onrender.com/api/reports/${patientId}`);
         const reports = await response.json();
 
         // Separate ECG reports from regular reports
@@ -307,7 +307,7 @@ async function handlePredict(e) {
     };
 
     try {
-        const res = await fetch('http://127.0.0.1:8000/api/predict', {
+        const res = await fetch('https://ecg-4ggp.onrender.com/api/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(inputData),
@@ -337,7 +337,7 @@ async function handlePredict(e) {
 // ─────────────────────────────────────────────────────────────
 async function loadAllPatients(side) {
     try {
-        const res = await fetch('http://127.0.0.1:8000/api/search-patient?q=');
+        const res = await fetch('https://ecg-4ggp.onrender.com/api/search-patient?q=');
         const list = await res.json();
         document.getElementById(`list${side}`).innerHTML = list.map(p => `
       <div class="registry-item"
@@ -357,7 +357,7 @@ async function selectPatient(side, id_str, name) {
     document.getElementById(`list${side}`).innerHTML = "";
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/reports/${id_str}`);
+        const response = await fetch(`https://ecg-4ggp.onrender.com/api/reports/${id_str}`);
         const data = await response.json();
 
         if (data.length > 0) {
@@ -478,7 +478,7 @@ async function liveSearch(side) {
     const q = document.getElementById(`input${side}`).value;
     if (q.length < 2) { loadAllPatients(side); return; }
     try {
-        const res = await fetch(`http://127.0.0.1:8000/api/search-patient?q=${q}`);
+        const res = await fetch(`https://ecg-4ggp.onrender.com/api/search-patient?q=${q}`);
         const list = await res.json();
         document.getElementById(`list${side}`).innerHTML = list.map(p => `
       <div class="registry-item"
@@ -498,7 +498,7 @@ async function sendAdvice(side) {
     if (!msg) return alert("Please type a message.");
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/send-feedback', {
+        const response = await fetch('https://ecg-4ggp.onrender.com/api/send-feedback', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -521,7 +521,7 @@ async function sendAdvice(side) {
 async function loadPatientHealthTrend() {
     const patientId = localStorage.getItem('userId');
     try {
-        const res = await fetch(`http://127.0.0.1:8000/api/reports/${patientId}`);
+        const res = await fetch(`https://ecg-4ggp.onrender.com/api/reports/${patientId}`);
         const reports = await res.json();
         const regular = reports.filter(r => r.report_type !== 'ecg');
         const recent = regular.slice(0, 7).reverse();
@@ -568,7 +568,7 @@ async function sendChatMessage() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/chatbot', {
+        const response = await fetch('https://ecg-4ggp.onrender.com/api/chatbot', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user_id: userId, message }),
@@ -826,7 +826,7 @@ async function analyzeEcg() {
 
         setEcgStatus('Running ensemble model prediction (ResNet + Inception + Transformer)...', true);
 
-        const res = await fetch('http://127.0.0.1:8000/api/ecg-predict', {
+        const res = await fetch('https://ecg-4ggp.onrender.com/api/ecg-predict', {
             method: 'POST',
             body: formData,
         });
@@ -1077,7 +1077,7 @@ async function saveEcgReport() {
     };
 
     try {
-        const res = await fetch('http://127.0.0.1:8000/api/save-ecg-report', {
+        const res = await fetch('https://ecg-4ggp.onrender.com/api/save-ecg-report', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),

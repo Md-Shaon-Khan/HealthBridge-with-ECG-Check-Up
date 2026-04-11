@@ -28,7 +28,7 @@ document.getElementById('predictionForm').addEventListener('submit', async (e) =
     console.log("Submitting prediction data:", formData);
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/predict', {
+        const response = await fetch('https://ecg-4ggp.onrender.com/api/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -66,6 +66,6 @@ document.getElementById('predictionForm').addEventListener('submit', async (e) =
         }
     } catch (err) {
         console.error(err);
-        alert("Cannot reach the prediction server. Make sure FastAPI is running at http://127.0.0.1:8000");
+        alert("Cannot reach the prediction server. Make sure FastAPI is running at https://ecg-4ggp.onrender.com");
     }
 });

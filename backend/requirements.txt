@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-numpy
+numpy < 2.0.0
 pandas
 scikit-learn
 tensorflow==2.15.0
@@ -8,6 +8,7 @@ matplotlib
 scipy
 wfdb
 pymongo
+motor
 python-dotenv
 joblib
 seaborn

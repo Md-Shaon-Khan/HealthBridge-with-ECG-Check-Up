@@ -13,3 +13,4 @@ python-dotenv
 joblib
 seaborn
 httpx
+email-validator

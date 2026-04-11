@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+numpy
+pandas
+scikit-learn
+tensorflow==2.15.0
+matplotlib
+scipy
+wfdb
+pymongo
+python-dotenv
+joblib
+seaborn

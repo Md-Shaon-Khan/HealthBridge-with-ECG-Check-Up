@@ -14,3 +14,4 @@ joblib
 seaborn
 httpx
 email-validator
+python-multipart

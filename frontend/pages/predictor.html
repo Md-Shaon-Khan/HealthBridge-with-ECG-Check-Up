@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthBridge | Clinical Analysis Engine</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="predictor-style.css" />
+  </head>
+  <body>
+    <div class="main-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand-mark">HB</div>
+          <div class="brand-text">
+            <h1>Health<span>Bridge</span></h1>
+            <p>Clinical Intelligence</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="analysis-viewport">
+        <div class="analysis-card">
+          <header class="card-header">
+            <h2>Diagnostic Analysis</h2>
+            <p>
+              Provide high-precision vital signs and symptom markers for neural
+              evaluation.
+            </p>
+          </header>
+
+          <form id="predictionForm" class="clinical-form">
+            <span class="label-heading">I. Quantitative Vitals</span>
+            <div class="input-grid">
+              <div class="input-group">
+                <label>Core Temp (°C)</label>
+                <input
+                  type="number"
+                  id="temp"
+                  step="0.1"
+                  placeholder="37.0"
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label>Heart Rate (BPM)</label>
+                <input
+                  type="number"
+                  id="heart_rate"
+                  placeholder="80"
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label>Systolic BP</label>
+                <input type="number" id="bp_sys" placeholder="120" required />
+              </div>
+              <div class="input-group">
+                <label>Diastolic BP</label>
+                <input type="number" id="bp_dia" placeholder="80" required />
+              </div>
+              <div class="input-group wide">
+                <label>Ambient Humidity (%)</label>
+                <input type="number" id="humidity" placeholder="45" required />
+              </div>
+            </div>
+
+            <span class="label-heading">II. Symptomatic Observation</span>
+
+            <div class="symptoms-shell">
+              <div class="symptom-grid">
+                <div class="symptom-item">
+                  <input type="checkbox" id="fever" />
+                  <label for="fever">Febrile Presence</label>
+                </div>
+                <div class="symptom-item">
+                  <input type="checkbox" id="cough" />
+                  <label for="cough">Respiratory Cough</label>
+                </div>
+                <div class="symptom-item">
+                  <input type="checkbox" id="chest_pain" />
+                  <label for="chest_pain">Thoracic Discomfort</label>
+                </div>
+                <div class="symptom-item">
+                  <input type="checkbox" id="shortness_breath" />
+                  <label for="shortness_breath">Dyspnea Markers</label>
+                </div>
+                <div class="symptom-item">
+                  <input type="checkbox" id="fatigue" />
+                  <label for="fatigue">Lethargy / Fatigue</label>
+                </div>
+                <div class="symptom-item">
+                  <input type="checkbox" id="headache" />
+                  <label for="headache">Cranial Pressure</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-stack">
+              <button type="submit" class="primary-action-btn">
+                Initialize neural Analysis
+              </button>
+              <button
+                type="button"
+                class="secondary-action-btn"
+                onclick="window.location.href = '../dashboard.html'"
+              >
+                Return to Dashboard
+              </button>
+            </div>
+          </form>
+
+          <div id="resultBox" class="result-display">
+            <div class="result-header">
+              <span class="label-heading">Evaluation Status</span>
+              <h3 id="predictionResult">Ready for Input</h3>
+            </div>
+            <div class="result-footer">
+              <p id="predictionScore">Awaiting Data Processing</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="../predictor.js"></script>
+  </body>
+</html>

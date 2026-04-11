@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service | Respiratory & Febrile Analysis</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="../../service-style.css" />
+  </head>
+  <body class="fever-bg">
+    <nav class="navbar">
+      <div class="logo" onclick="location.href = '../../index.html'">
+        <span class="logo-hb">HB</span> Health<span>Bridge</span>
+      </div>
+
+      <ul class="nav-links">
+        <li class="nav-item mega-dropdown">
+          <a href="#">Disease</a>
+          <div class="mega-menu">
+            <div class="mega-menu-content">
+              <h3 class="menu-title">Medical Conditions and Diseases</h3>
+              <div class="mega-menu-grid" id="diseaseGrid"></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a href="#">Services</a>
+          <div class="dropdown">
+            <a href="heart-risk.html">Heart Risk</a>
+            <a href="fever.html">Fever Respiratory</a>
+            <a href="hypertension.html">Hypertension</a>
+            <a href="hypotension.html">Hypotension</a>
+            <a href="normal.html">General Checkup</a>
+          </div>
+        </li>
+
+        <li class="nav-item"><a href="../wellness.html">Wellness</a></li>
+        <li class="nav-item"><a href="../primary-drugs.html">Drugs</a></li>
+        <li class="nav-item"><a href="../foods.html">Foods</a></li>
+        <li class="nav-item"><a href="../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <header class="service-hero fever-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="category-tag">Pulmonology & Infectious Disease</span>
+        <h1>Respiratory & <span>Febrile Analysis.</span></h1>
+        <p>
+          Evaluation of thermoregulatory response and pulmonary function markers
+          through clinical AI modeling.
+        </p>
+      </div>
+    </header>
+
+    <main class="service-main">
+      <div class="service-container">
+        <div class="service-gallery">
+          <div class="image-box">
+            <img src="4.jpg" alt="Thermal Imaging" />
+            <div class="img-label">Thermal Gradient</div>
+          </div>
+          <div class="image-box">
+            <img src="5.jpg" alt="Lung Auscultation" />
+            <div class="img-label">Pulmonary Analysis</div>
+          </div>
+          <div class="image-box">
+            <img src="6.jpg" alt="Oxygen Monitoring" />
+            <div class="img-label">SpO2 Saturation</div>
+          </div>
+        </div>
+
+        <!-- New Section: Respiratory Anatomy Overview (replaces placeholder) -->
+        <div class="anatomy-section">
+          <h2>Respiratory System</h2>
+          <div class="anatomy-content">
+            <img
+              src="https://antranik.org/wp-content/uploads/2024/10/organs-of-the-respiratory-system-larynx-bronchi-alveoli-diaphragm-trachea-pharynx-paranasal-sinuses.jpg"
+              alt="Anatomy of the respiratory system"
+              class="anatomy-image"
+            />
+            <div class="anatomy-text">
+              <p>
+                The respiratory system is responsible for gas exchange—bringing
+                oxygen into the body and removing carbon dioxide. Air enters
+                through the nasal cavity, passes through the pharynx and larynx,
+                then travels down the trachea. The trachea divides into two main
+                bronchi (left and right), which further branch into smaller
+                bronchioles within the lungs. At the end of the bronchioles are
+                tiny air sacs called alveoli, where oxygen diffuses into the
+                bloodstream and carbon dioxide moves out.
+              </p>
+              <p>
+                In febrile respiratory illnesses, inflammation can affect any
+                part of this pathway, from the nasal passages (rhinitis) to the
+                alveoli (pneumonia). Fever often accompanies these conditions as
+                part of the body's immune response.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="service-content-grid">
+          <section class="assessment-card">
+            <h2 class="card-title">Diagnostic Scope</h2>
+            <p class="medical-description">
+              This module analyzes febrile patterns in conjunction with
+              respiratory symptoms. By correlating body temperature fluctuations
+              with cough, fatigue, and shortness of breath, the AI identifies
+              potential viral or bacterial pulmonary infections.
+            </p>
+
+            <div class="metrics-container">
+              <div class="metric-item">
+                <strong>Core Temperature</strong>
+                <span>Variance Analysis</span>
+              </div>
+              <div class="metric-item">
+                <strong>Respiratory Rate</strong>
+                <span>Consistency Mapping</span>
+              </div>
+              <div class="metric-item">
+                <strong>Symptom Logic</strong>
+                <span>Progression Tracking</span>
+              </div>
+            </div>
+
+            <button
+              class="btn-start-test"
+              onclick="location.href = '../../predictor.html'"
+            >
+              Proceed to AI Prediction
+            </button>
+          </section>
+
+          <aside class="info-sidebar">
+            <div class="warning-widget">
+              <h3>Medical Alert</h3>
+              <p>
+                Seek urgent care if you experience a temperature above
+                <strong>39.4°C (103°F)</strong> or significant difficulty
+                breathing.
+              </p>
+            </div>
+
+            <div class="sidebar-info-card">
+              <h4>System Logic</h4>
+              <p>
+                Correlates data from thermal and respiratory sensors to generate
+                risk percentages.
+              </p>
+            </div>
+          </aside>
+        </div>
+
+        <!-- New Section: Common Febrile Respiratory Conditions -->
+        <div class="conditions-section">
+          <h2>Common Febrile Respiratory Conditions</h2>
+          <div class="conditions-grid">
+            <div class="condition-card">
+              <h3>Influenza</h3>
+              <p>
+                Characterized by sudden onset of high fever, muscle aches, dry
+                cough, and fatigue. Typically seasonal, caused by influenza A or
+                B viruses.
+              </p>
+            </div>
+            <div class="condition-card">
+              <h3>COVID‑19</h3>
+              <p>
+                Fever, cough, and shortness of breath are hallmarks. Loss of
+                taste or smell may also occur. Caused by SARS‑CoV‑2, with
+                varying severity.
+              </p>
+            </div>
+            <div class="condition-card">
+              <h3>Pneumonia</h3>
+              <p>
+                Infection of the lung parenchyma. Presents with fever,
+                productive cough, pleuritic chest pain, and sometimes confusion
+                in older adults.
+              </p>
+            </div>
+            <div class="condition-card">
+              <h3>Bronchitis</h3>
+              <p>
+                Inflammation of the bronchial tubes. Often follows a cold; fever
+                may be low‑grade, with persistent cough and mucus production.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Section: Risk Factors -->
+        <div class="risk-section">
+          <h2>Who Is at Higher Risk?</h2>
+          <p>
+            While anyone can develop a febrile respiratory illness, certain
+            factors increase susceptibility and the likelihood of severe
+            disease.
+          </p>
+          <div class="risk-grid">
+            <div class="risk-category">
+              <h3>Age</h3>
+              <ul>
+                <li>
+                  Young children (under 5) and older adults (over 65) are more
+                  vulnerable.
+                </li>
+                <li>Infants have immature immune systems.</li>
+                <li>
+                  Older adults often have weakened immune responses and chronic
+                  conditions.
+                </li>
+              </ul>
+            </div>
+            <div class="risk-category">
+              <h3>Underlying conditions</h3>
+              <ul>
+                <li>Chronic lung disease (asthma, COPD).</li>
+                <li>Heart disease, diabetes, kidney disease.</li>
+                <li>
+                  Immunocompromised states (HIV, chemotherapy, transplant
+                  recipients).
+                </li>
+              </ul>
+            </div>
+            <div class="risk-category">
+              <h3>Lifestyle & environment</h3>
+              <ul>
+                <li>Smoking or exposure to secondhand smoke.</li>
+                <li>Crowded living conditions (dorms, nursing homes).</li>
+                <li>
+                  Occupational exposure (healthcare workers, first responders).
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Section: Prevention Strategies -->
+        <div class="prevention-section">
+          <h2>Reducing Your Risk</h2>
+          <p>
+            Vaccination and simple hygiene measures are the most effective ways
+            to prevent respiratory infections.
+          </p>
+          <ul class="prevention-list">
+            <li>
+              <strong>Get vaccinated.</strong> Annual flu shots and COVID‑19
+              boosters reduce the chance of severe illness.
+            </li>
+            <li>
+              <strong>Wash hands frequently</strong> with soap and water, or use
+              alcohol‑based hand sanitizer.
+            </li>
+            <li>
+              <strong>Avoid close contact</strong> with people who are sick.
+            </li>
+            <li>
+              <strong>Cover coughs and sneezes</strong> with a tissue or your
+              elbow.
+            </li>
+            <li>
+              <strong>Wear a mask</strong> in crowded indoor settings during
+              respiratory virus season.
+            </li>
+            <li>
+              <strong>Stay home when ill</strong> to prevent spreading
+              infection.
+            </li>
+          </ul>
+        </div>
+
+        <!-- New Section: Recent Advances -->
+        <div class="research-section">
+          <h2>Recent Advances in Respiratory Medicine</h2>
+          <div class="research-grid">
+            <div class="research-card">
+              <h3>Rapid molecular testing</h3>
+              <p>
+                Point‑of‑care PCR tests can now identify influenza, RSV, and
+                COVID‑19 in under 30 minutes, allowing earlier antiviral
+                treatment.
+              </p>
+            </div>
+            <div class="research-card">
+              <h3>Novel antivirals</h3>
+              <p>
+                New drugs like baloxavir for influenza and
+                nirmatrelvir/ritonavir for COVID‑19 shorten illness duration and
+                reduce hospitalization risk.
+              </p>
+            </div>
+            <div class="research-card">
+              <h3>AI‑assisted chest imaging</h3>
+              <p>
+                Deep learning algorithms can detect pneumonia and COVID‑19
+                patterns on chest X‑rays with accuracy comparable to expert
+                radiologists.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clinical note (replaces previous placeholder) -->
+        <div class="cta-note">
+          <p>
+            <strong>When to seek further evaluation:</strong> Persistent fever
+            lasting more than three days, worsening shortness of breath, chest
+            pain, or confusion require immediate medical attention. Pulse
+            oximetry readings below 92% while breathing room air also warrant
+            urgent care.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section brand">
+          <h2>Health<span>Bridge</span></h2>
+          <p>
+            Utilizing advanced analytics to provide proactive clinical insights.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="../wellness.html">Wellness Hub</a></li>
+            <li><a href="../primary-drugs.html">Drug Directory</a></li>
+            <li><a href="../contact.html">Support</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 HealthBridge Clinical Systems. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../../script.js"></script>
+  </body>
+</html>

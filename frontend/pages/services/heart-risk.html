@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service | Cardiovascular Risk Assessment</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="../../service-style.css" />
+  </head>
+  <body class="heart-bg">
+    <nav class="navbar">
+      <div class="logo" onclick="location.href = '../../index.html'">
+        <span class="logo-hb">HB</span> Health<span>Bridge</span>
+      </div>
+
+      <ul class="nav-links">
+        <li class="nav-item mega-dropdown">
+          <a href="#">Disease</a>
+          <div class="mega-menu">
+            <div class="mega-menu-content">
+              <h3 class="menu-title">Medical Conditions and Diseases</h3>
+              <div class="mega-menu-grid" id="diseaseGrid"></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a href="#">Services</a>
+          <div class="dropdown">
+            <a href="heart-risk.html">Heart Risk</a>
+            <a href="fever.html">Fever Respiratory</a>
+            <a href="hypertension.html">Hypertension</a>
+            <a href="hypotension.html">Hypotension</a>
+            <a href="normal.html">General Checkup</a>
+          </div>
+        </li>
+
+        <li class="nav-item"><a href="../wellness.html">Wellness</a></li>
+        <li class="nav-item"><a href="../primary-drugs.html">Drugs</a></li>
+        <li class="nav-item"><a href="../foods.html">Foods</a></li>
+        <li class="nav-item"><a href="../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <header class="service-hero heart-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="category-tag">Cardiology Department</span>
+        <h1>Heart Risk <span>Prediction.</span></h1>
+        <p>
+          Comprehensive analysis of cardiovascular health markers using
+          computational intelligence.
+        </p>
+      </div>
+    </header>
+
+    <main class="service-main">
+      <div class="service-container">
+        <div class="service-gallery">
+          <div class="image-box">
+            <img src="1.jpg" alt="Heart Monitoring" />
+            <div class="img-label">Vascular Monitoring</div>
+          </div>
+          <div class="image-box">
+            <img src="2.jpg" alt="Diagnostic Scan" />
+            <div class="img-label">Myocardial Analysis</div>
+          </div>
+          <div class="image-box">
+            <img src="3.jpg" alt="Clinical Environment" />
+            <div class="img-label">ECG Diagnostics</div>
+          </div>
+        </div>
+
+        <!-- New Section: Heart Anatomy Overview (replaces placeholder) -->
+        <div class="anatomy-section">
+          <h2>Heart: Structure and Function</h2>
+          <div class="anatomy-content">
+            <img
+              src="https://www.cardofmich.com/wp-content/uploads/2019/10/Card-of-Mich-_-Blog-Anatomy-of-the-Heart-598167278.jpg"
+              alt="Anatomy of the human heart"
+              class="anatomy-image"
+            />
+            <div class="anatomy-text">
+              <p>
+                The heart is a muscular pump divided into four chambers: the
+                right atrium, right ventricle, left atrium, and left ventricle.
+                Blood flows through the heart in a precise sequence:
+                deoxygenated blood enters the right atrium, passes to the right
+                ventricle, and is pumped to the lungs for oxygenation.
+                Oxygen‑rich blood returns to the left atrium, then to the left
+                ventricle, which pumps it out to the body through the aorta.
+              </p>
+              <p>
+                Coronary arteries supply the heart muscle itself with blood.
+                Blockages in these arteries can lead to angina or myocardial
+                infarction (heart attack). Understanding this anatomy helps in
+                assessing risk factors and interpreting diagnostic tests like
+                ECGs and stress tests.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="service-content-grid">
+          <section class="assessment-card">
+            <h2 class="card-title">Diagnostic Scope</h2>
+            <p class="medical-description">
+              The Cardiovascular Risk Assessment service focuses on the early
+              detection of anomalies within the heart and circulatory system. By
+              analyzing physiological data—including systolic/diastolic blood
+              pressure and resting heart rate—the system calculates the
+              statistical probability of myocardial stress.
+            </p>
+
+            <div class="metrics-container">
+              <div class="metric-item">
+                <strong>Ventricular Output</strong>
+                <span>Real-time Monitoring</span>
+              </div>
+              <div class="metric-item">
+                <strong>Arterial Pressure</strong>
+                <span>Deviation Analysis</span>
+              </div>
+              <div class="metric-item">
+                <strong>Ischemic Pattern</strong>
+                <span>Recognition Logic</span>
+              </div>
+            </div>
+
+            <button
+              class="btn-start-test"
+              onclick="location.href = '../../predictor.html'"
+            >
+              Proceed to AI Prediction
+            </button>
+          </section>
+
+          <aside class="info-sidebar">
+            <div class="warning-widget">
+              <h3>Medical Alert</h3>
+              <p>
+                If you are currently experiencing acute chest pain or pain
+                radiating to the left arm, seek
+                <strong>immediate emergency medical intervention</strong>.
+              </p>
+            </div>
+
+            <div class="sidebar-info-card">
+              <h4>Service Availability</h4>
+              <p>
+                Status:
+                <span style="color: #10b981; font-weight: 800">Online</span>
+              </p>
+              <p>Algorithm: Neural Network v3.0</p>
+            </div>
+          </aside>
+        </div>
+
+        <!-- New Section: Common Cardiovascular Conditions -->
+        <div class="conditions-section">
+          <h2>Common Cardiovascular Conditions</h2>
+          <div class="conditions-grid">
+            <div class="condition-card">
+              <h3>Coronary Artery Disease</h3>
+              <p>
+                Narrowing of the coronary arteries due to atherosclerosis. Can
+                cause angina, shortness of breath, and heart attack.
+              </p>
+            </div>
+            <div class="condition-card">
+              <h3>Heart Failure</h3>
+              <p>
+                The heart's pumping ability is reduced, leading to fluid buildup
+                in the lungs and extremities. Often a chronic condition managed
+                with medication.
+              </p>
+            </div>
+            <div class="condition-card">
+              <h3>Arrhythmias</h3>
+              <p>
+                Abnormal heart rhythms—too fast, too slow, or irregular. Atrial
+                fibrillation is the most common type and increases stroke risk.
+              </p>
+            </div>
+            <div class="condition-card">
+              <h3>Valvular Heart Disease</h3>
+              <p>
+                Damage to one of the heart valves, affecting blood flow. May be
+                congenital or acquired (e.g., rheumatic fever, degeneration).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Section: Risk Factors -->
+        <div class="risk-section">
+          <h2>Key Risk Factors for Heart Disease</h2>
+          <p>
+            Many factors contribute to cardiovascular risk. Some are modifiable
+            through lifestyle changes, while others cannot be changed.
+          </p>
+          <div class="risk-grid">
+            <div class="risk-category">
+              <h3>Modifiable risks</h3>
+              <ul>
+                <li>High blood pressure (hypertension).</li>
+                <li>High cholesterol (especially LDL).</li>
+                <li>Smoking and tobacco use.</li>
+                <li>Diabetes and insulin resistance.</li>
+                <li>Obesity and physical inactivity.</li>
+                <li>Unhealthy diet high in saturated fats and sodium.</li>
+              </ul>
+            </div>
+            <div class="risk-category">
+              <h3>Non‑modifiable risks</h3>
+              <ul>
+                <li>Age (men over 45, women over 55).</li>
+                <li>Family history of early heart disease.</li>
+                <li>Gender (men have higher risk earlier).</li>
+                <li>
+                  Ethnicity (higher risk in South Asian, African‑Caribbean
+                  populations).
+                </li>
+              </ul>
+            </div>
+            <div class="risk-category">
+              <h3>Emerging risk factors</h3>
+              <ul>
+                <li>Chronic kidney disease.</li>
+                <li>Inflammatory conditions (rheumatoid arthritis, lupus).</li>
+                <li>Sleep apnea.</li>
+                <li>High levels of stress and anxiety.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Section: Prevention Strategies -->
+        <div class="prevention-section">
+          <h2>Reducing Cardiovascular Risk</h2>
+          <p>
+            Lifestyle changes can significantly lower the likelihood of heart
+            disease, even in people with genetic predisposition.
+          </p>
+          <ul class="prevention-list">
+            <li>
+              <strong>Adopt a heart‑healthy diet.</strong> Emphasize fruits,
+              vegetables, whole grains, lean protein, and healthy fats
+              (Mediterranean diet).
+            </li>
+            <li>
+              <strong>Get regular physical activity.</strong> Aim for at least
+              150 minutes of moderate aerobic exercise per week.
+            </li>
+            <li>
+              <strong>Maintain a healthy weight.</strong> Even modest weight
+              loss improves blood pressure and cholesterol.
+            </li>
+            <li>
+              <strong>Avoid tobacco.</strong> Quitting smoking rapidly reduces
+              risk.
+            </li>
+            <li>
+              <strong>Limit alcohol.</strong> Excessive intake raises blood
+              pressure and contributes to heart failure.
+            </li>
+            <li>
+              <strong>Manage stress.</strong> Chronic stress may contribute to
+              hypertension and unhealthy coping behaviors.
+            </li>
+          </ul>
+        </div>
+
+        <!-- New Section: Recent Advances -->
+        <div class="research-section">
+          <h2>Recent Advances in Cardiology</h2>
+          <div class="research-grid">
+            <div class="research-card">
+              <h3>PCSK9 inhibitors</h3>
+              <p>
+                These powerful cholesterol‑lowering drugs, given by injection,
+                can reduce LDL to very low levels in patients with familial
+                hypercholesterolemia or those intolerant to statins.
+              </p>
+            </div>
+            <div class="research-card">
+              <h3>TAVR (Transcatheter Aortic Valve Replacement)</h3>
+              <p>
+                A minimally invasive procedure to replace a narrowed aortic
+                valve, now an option for many high‑risk surgical patients.
+              </p>
+            </div>
+            <div class="research-card">
+              <h3>Artificial intelligence in ECG interpretation</h3>
+              <p>
+                AI algorithms can detect subtle patterns in ECGs that predict
+                future atrial fibrillation or heart failure, sometimes years
+                before symptoms appear.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clinical note -->
+        <div class="cta-note">
+          <p>
+            <strong>When to consult a cardiologist:</strong> If you have chest
+            discomfort, unexplained shortness of breath, palpitations, or a
+            family history of early heart disease, discuss your risk with a
+            physician. Regular check‑ups that include blood pressure and
+            cholesterol measurements are essential for prevention.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section brand">
+          <h2>Health<span>Bridge</span></h2>
+          <p>
+            Utilizing advanced analytics to provide proactive cardiovascular
+            insights.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="../wellness.html">Wellness Hub</a></li>
+            <li><a href="../primary-drugs.html">Drug Directory</a></li>
+            <li><a href="../contact.html">Support</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 HealthBridge Clinical Diagnostics. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="../../script.js"></script>
+  </body>
+</html>

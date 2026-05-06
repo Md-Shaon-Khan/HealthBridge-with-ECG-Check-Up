@@ -6,6 +6,12 @@
 #    python clean_ecg.py
 #  (automatically finds the latest raw CSV in raw_output folder)
 #
+#  Input format supported:
+#    - Single column of float values (no header), e.g.:
+#        -0.02357178
+#        -0.09708435
+#    - Two columns with header: sample_index,ecg_value (legacy)
+#
 #  Advanced features:
 #    - Wavelet denoising (multi-level DWT thresholding)
 #    - Hampel filter for outlier removal (robust)
@@ -42,10 +48,6 @@ TARGET_FS     = 360
 WINDOW_SIZE   = 3600
 MIN_SAMPLES   = WINDOW_SIZE
 
-ADC_MIN       = 0
-ADC_MAX       = 1023
-LEAD_OFF_VAL  = 512
-LEAD_OFF_TOLERANCE = 5
 FLAT_WINDOW   = 72
 HAMPEL_WINDOW = 11          # Window size for Hampel filter
 HAMPEL_THRESH = 3.5         # Number of MADs for outlier detection
@@ -68,18 +70,48 @@ def find_latest_raw_file():
 def load_csv(filepath):
     print(f"\n📂 Loading: {os.path.basename(filepath)}")
     try:
-        df = pd.read_csv(filepath, comment='#', header=None)
+        # Try reading with no header first to inspect
+        df_raw = pd.read_csv(filepath, comment='#', header=None)
     except Exception as e:
         print(f"  ❌ CSV read failed: {e}")
         return None
 
-    if df.shape[1] == 1:
-        raw = df.iloc[:, 0]
-    elif df.shape[1] >= 2:
-        raw = df.iloc[:, -1]
-    else:
-        print("  ❌ Unrecognized CSV format.")
+    if df_raw.shape[1] == 0:
+        print("  ❌ Empty file.")
         return None
+
+    # ── Detect format ──────────────────────────────────────
+    # Check if first row looks like a header (non-numeric string)
+    first_val = str(df_raw.iloc[0, 0]).strip().lower()
+    has_header = not _is_numeric(first_val)
+
+    if has_header:
+        # Re-read with header
+        try:
+            df = pd.read_csv(filepath, comment='#')
+        except Exception as e:
+            print(f"  ❌ CSV re-read with header failed: {e}")
+            return None
+
+        # Pick the ecg_value column if present, otherwise last numeric column
+        if 'ecg_value' in df.columns:
+            raw = df['ecg_value']
+        else:
+            raw = df.iloc[:, -1]
+        print(f"  ℹ️  Detected format: with header ({list(df.columns)})")
+    else:
+        # Headerless — single or multi column
+        if df_raw.shape[1] == 1:
+            # Pure single-column float file (new format)
+            raw = df_raw.iloc[:, 0]
+            print("  ℹ️  Detected format: headerless single-column floats")
+        elif df_raw.shape[1] >= 2:
+            # Possibly index + value without header
+            raw = df_raw.iloc[:, -1]
+            print(f"  ℹ️  Detected format: headerless {df_raw.shape[1]}-column, using last column")
+        else:
+            print("  ❌ Unrecognized CSV format.")
+            return None
 
     raw = pd.to_numeric(raw, errors='coerce').dropna()
     if len(raw) == 0:
@@ -90,28 +122,31 @@ def load_csv(filepath):
     print(f"  ✅ Loaded {len(signal)} samples ({len(signal)/TARGET_FS:.1f}s at {TARGET_FS}Hz)")
     return signal
 
+def _is_numeric(s):
+    """Return True if string s can be parsed as a float."""
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
 # ── Ultra‑advanced: Wavelet Denoising ─────────────────────
 def wavelet_denoise(signal, wavelet='db4', level=4, method='soft'):
     """Multi-level wavelet denoising using universal threshold."""
     if not WAVELET_AVAILABLE:
         return signal
-    # Decompose
     coeffs = pywt.wavedec(signal, wavelet, level=level)
-    # Estimate noise standard deviation from finest detail coefficients
     sigma = np.median(np.abs(coeffs[-1])) / 0.6745
     if sigma < 1e-8:
         return signal
     threshold = sigma * np.sqrt(2 * np.log(len(signal)))
-    # Apply threshold to detail coefficients
     new_coeffs = [coeffs[0]]
     for i in range(1, len(coeffs)):
         if method == 'soft':
             new_coeffs.append(pywt.threshold(coeffs[i], threshold, mode='soft'))
         else:
             new_coeffs.append(pywt.threshold(coeffs[i], threshold, mode='hard'))
-    # Reconstruct
     denoised = pywt.waverec(new_coeffs, wavelet)
-    # Trim to original length
     if len(denoised) > len(signal):
         denoised = denoised[:len(signal)]
     print(f"  ✅ Wavelet denoising (wavelet={wavelet}, level={level}, method={method})")
@@ -136,13 +171,20 @@ def hampel_filter(signal, window_size=HAMPEL_WINDOW, n_sigmas=HAMPEL_THRESH):
     print(f"  ✅ Hampel filter applied (window={window_size}, sigma={n_sigmas})")
     return signal
 
-# ── Remove lead-off & saturation ──────────────────────────
+# ── Remove lead-off & saturation (float-aware) ────────────
 def remove_lead_off_artifacts(signal):
+    """
+    For float signals, detect statistical outliers instead of
+    fixed ADC thresholds. Samples beyond MAD_THRESH * MAD from
+    the median are treated as artifacts and interpolated.
+    """
     signal = signal.copy()
     n = len(signal)
-    lead_off_mask = np.abs(signal - LEAD_OFF_VAL) <= LEAD_OFF_TOLERANCE
-    sat_mask = (signal <= ADC_MIN + 2) | (signal >= ADC_MAX - 2)
-    bad_mask = lead_off_mask | sat_mask
+    median = np.median(signal)
+    mad = median_abs_deviation(signal)
+    if mad < 1e-8:
+        return signal
+    bad_mask = np.abs(signal - median) > MAD_THRESH * mad
     bad_count = np.sum(bad_mask)
     if bad_count == 0:
         return signal
@@ -156,12 +198,10 @@ def remove_lead_off_artifacts(signal):
 
 # ── Baseline wander removal (cubic spline) ────────────────
 def remove_baseline_wander(signal, fs=TARGET_FS, cutoff=0.5):
-    """Estimate baseline by low-pass filtering (or cubic spline on minima)."""
-    # Use high-pass filter (already in bandpass) but also direct spline method
-    # Find minima points (every 0.5 sec) and fit cubic spline
+    """Estimate baseline by cubic spline on minima every 0.5s."""
     signal = signal.copy()
     n = len(signal)
-    step = int(fs * 0.5)  # every 0.5 second
+    step = int(fs * 0.5)
     indices = np.arange(0, n, step)
     if len(indices) < 4:
         return signal
@@ -200,7 +240,7 @@ def fix_flatline_segments(signal):
     flat_count = 0
     while i < n - FLAT_WINDOW:
         window = signal[i:i+FLAT_WINDOW]
-        if np.std(window) < 0.5:
+        if np.std(window) < 1e-4:          # float-safe threshold (was 0.5 for ADC)
             bad_mask[i:i+FLAT_WINDOW] = True
             flat_count += 1
             i += FLAT_WINDOW
@@ -245,7 +285,7 @@ def normalize_signal(signal):
     if std < 1e-8:
         return signal
     normalized = ((signal - mean) / (std + 1e-8)).astype(np.float32)
-    print(f"  ✅ Normalized (mean={mean:.2f}, std={std:.2f})")
+    print(f"  ✅ Normalized (mean={mean:.6f}, std={std:.6f})")
     return normalized
 
 # ── Save cleaned CSV ──────────────────────────────────────
@@ -273,7 +313,7 @@ def clean_pipeline(input_path, input_fs=TARGET_FS):
 
     print("\n🔧 Cleaning steps (ultra advanced):")
 
-    # 1. Remove lead-off/saturation
+    # 1. Remove lead-off/saturation (MAD-based for float signals)
     signal = remove_lead_off_artifacts(signal)
 
     # 2. Median filter for spikes

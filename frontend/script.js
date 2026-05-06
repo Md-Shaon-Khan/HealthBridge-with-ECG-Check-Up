@@ -1,4 +1,4 @@
-const API_BASE = "https://ecg-4ggp.onrender.com";
+const API_BASE = "https://api.ecg-iit-ju-shaon.xyz";
 
 document.addEventListener("DOMContentLoaded", () => {
 

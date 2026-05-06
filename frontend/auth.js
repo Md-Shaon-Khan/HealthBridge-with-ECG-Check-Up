@@ -83,7 +83,7 @@ document.getElementById('authForm').addEventListener('submit', async (e) => {
     const endpoint = mode.trim().toLowerCase() === "sign up" ? "signup" : "login";
 
     try {
-        const response = await fetch(`https://ecg-4ggp.onrender.com/api/${endpoint}`, {
+        const response = await fetch(`https://api.ecg-iit-ju-shaon.xyz/api/${endpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)

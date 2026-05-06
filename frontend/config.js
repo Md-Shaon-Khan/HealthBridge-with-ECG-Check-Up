@@ -4,7 +4,7 @@
 //  👉 Never use localhost in fetch() calls directly
 // ============================================================
 
-const API_BASE = "https://ecg-4ggp.onrender.com";
+const API_BASE = "https://api.ecg-iit-ju-shaon.xyz";
 
 // ── Auth ──────────────────────────────────────────────────────
 const API = {

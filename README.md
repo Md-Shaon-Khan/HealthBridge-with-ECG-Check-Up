@@ -2,8 +2,8 @@
 
 **An Integrated IoT and AI-Based System for ECG Monitoring and Disease Prediction**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-HealthBridge-blue?style=for-the-badge)](https://healthbridge-shaon.netlify.app)
-[![API Docs](https://img.shields.io/badge/API%20Docs-Swagger-green?style=for-the-badge)](https://ecg-4ggp.onrender.com/docs)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-HealthBridge-blue?style=for-the-badge)](https://ecg-iit-ju-shaon.xyz)
+[![API Docs](https://img.shields.io/badge/API%20Docs-Swagger-green?style=for-the-badge)](https://ecg-iit-ju-shaon.xyz/docs)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
@@ -197,7 +197,7 @@ The backend exposes RESTful APIs built with FastAPI for authentication, predicti
 | DELETE | `/api/delete-patient/{id}` | Remove patient record |
 | POST | `/api/chatbot` | Medical chatbot (LLaMA 3.3 70B) |
 
-Full interactive documentation: [https://ecg-4ggp.onrender.com/docs](https://ecg-4ggp.onrender.com/docs)
+Full interactive documentation: [https://ecg-iit-ju-shaon.xyz/docs](https://ecg-iit-ju-shaon.xyz/docs)
 
 ---
 
@@ -205,7 +205,7 @@ Full interactive documentation: [https://ecg-4ggp.onrender.com/docs](https://ecg
 
 | Component | Platform | URL |
 |---|---|---|
-| Frontend | Netlify | [healthbridge-shaon.netlify.app](https://healthbridge-shaon.netlify.app) |
+| Frontend | Netlify | [ecg-iit-ju-shaon.xyz](https://ecg-iit-ju-shaon.xyz) |
 | Backend API | Render | [ecg-4ggp.onrender.com](https://ecg-4ggp.onrender.com) |
 | Database | MongoDB Atlas | Cloud hosted |
 | ECG Model | Google Drive | Auto-downloaded on startup |
@@ -297,6 +297,7 @@ Savar, Dhaka, Bangladesh
 
 [![GitHub](https://img.shields.io/badge/GitHub-Md--Shaon--Khan-black?style=flat&logo=github)](https://github.com/Md-Shaon-Khan)
 [![Email](https://img.shields.io/badge/Email-shaon.iit52@gmail.com-red?style=flat&logo=gmail)](mailto:shaon.iit52@gmail.com)
+[![Website](https://img.shields.io/badge/Website-ecg--iit--ju--shaon.xyz-orange?style=flat&logo=google-chrome)](https://ecg-iit-ju-shaon.xyz)
 
 ---
 

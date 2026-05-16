@@ -299,7 +299,7 @@
 
           try {
             // 3. URL FIX: Added /api/ to match your FastAPI route
-            const response = await fetch("http://127.0.0.1:8000/api/contact", {
+            const response = await fetch("https://api.ecg-iit-ju-shaon.xyz/api/contact", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(formData),

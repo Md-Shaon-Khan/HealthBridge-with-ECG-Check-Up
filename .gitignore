@@ -2,7 +2,7 @@
 venv/
 Run File/
 __pycache__/
-*.pkl
+# *.pkl
 *.h5
 *.keras
 *.dll
@@ -20,14 +20,16 @@ node_modules/
 
 # Data (DON'T upload)
 Database/
-ECG/raw_output/
-ECG/cleaned_output/
+# ECG/raw_output/
+# ECG/cleaned_output/
 
 # Images (optional, if big)
-frontend/pages/
+# frontend/pages/*
+!frontend/pages/diseases/
+!frontend/pages/services/
 
 # Large files
-*.csv
-*.jpg
-*.png
+# *.csv
+# *.jpg
+# *.png
 *.pdf

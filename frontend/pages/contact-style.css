@@ -1,18 +1,16 @@
 /* contact-style.css - Medical white theme with dark navbar/footer */
-/* Updated with a neutral, professional color scheme (no bright blue) */
 
 :root {
   --pure-white: #ffffff;
   --background-light: #f8fafc;
   --text-primary: #1e293b;
   --text-secondary: #475569;
-  --accent-professional: #2c3e50; /* Deep slate - replaces bright blue */
-  --accent-soft: #5f6b7a; /* Muted gray-blue */
+  --accent-professional: #2c3e50;
+  --accent-soft: #5f6b7a;
   --border-light: #e2e8f0;
   --hover-bg: #f1f5f9;
   --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 
-  /* Dark navbar/footer (unchanged) */
   --nav-bg: #0b202f;
   --nav-text: #e0eefb;
   --dropdown-border: #2b4b65;
@@ -28,7 +26,6 @@ body {
   line-height: 1.6;
 }
 
-/* Navbar (dark) - matches main style */
 .navbar {
   background: var(--nav-bg) !important;
   border-bottom: 2px solid var(--dropdown-border);
@@ -38,7 +35,6 @@ body {
   color: var(--nav-text) !important;
 }
 .logo-hb {
-  /* Use the professional accent color instead of dark blue to make it pop */
   background: var(--accent-professional) !important;
   color: white !important;
   padding: 6px 12px;
@@ -47,19 +43,17 @@ body {
   font-size: 1.4rem;
   font-weight: 800;
   display: inline-block;
-  /* Added a subtle border for extra definition against dark backgrounds */
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .logo span {
   color: var(--accent-professional);
 }
 
-/* --- Contact Header (with overlay) --- */
+/* --- Contact Header --- */
 .contact-header {
   position: relative;
   background: url("https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=80")
     center/cover no-repeat;
-  /* Increased bottom padding to create more visual 'breath' */
   padding: 120px 8% 140px;
   text-align: center;
   color: white;
@@ -116,15 +110,13 @@ body {
 /* --- Main Container --- */
 .contact-container {
   max-width: 1100px;
-  /* Increased top margin to -20px or 20px depending on overlap preference */
-  /* If you want more space between the image and the card, use 40px */
   margin: 40px auto 100px;
   padding: 0 20px;
   position: relative;
   z-index: 5;
 }
 
-/* Original contact card (enhanced styling) */
+/* --- Contact Card --- */
 .contact-card {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -203,7 +195,7 @@ body {
 }
 
 .btn-submit:hover {
-  background: #1a2b3a; /* darker shade */
+  background: #1a2b3a;
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
@@ -212,7 +204,7 @@ body {
   margin-bottom: 35px;
 }
 .sidebar-item h3 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: 12px;
   color: var(--text-primary);
   font-weight: 700;
@@ -223,22 +215,25 @@ body {
   line-height: 1.7;
 }
 
-/* New Sections */
+/* --- New Sections --- */
 .contact-direct,
 .contact-faq,
-.contact-map {
+.contact-map,
+.contact-author {
   margin: 60px 0;
 }
 
 .contact-direct h2,
 .contact-faq h2,
-.contact-map h2 {
+.contact-map h2,
+.contact-author h2 {
   font-size: 2rem;
   color: var(--text-primary);
   margin-bottom: 30px;
   word-break: break-word;
 }
 
+/* --- Direct Grid --- */
 .direct-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -260,14 +255,15 @@ body {
 }
 
 .direct-item h3 {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--text-primary);
   margin-bottom: 10px;
+  font-weight: 700;
 }
 
 .direct-item p {
   color: var(--text-secondary);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 5px;
   word-break: break-word;
@@ -280,7 +276,7 @@ body {
   opacity: 0.8;
 }
 
-/* FAQ Accordion */
+/* --- FAQ Accordion --- */
 .faq-list {
   border: 1px solid var(--border-light);
   border-radius: 24px;
@@ -303,12 +299,13 @@ body {
   padding: 20px 25px;
   background: none;
   border: none;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-primary);
   cursor: pointer;
   position: relative;
   transition: background 0.2s;
+  padding-right: 50px;
 }
 
 .faq-question:hover {
@@ -319,6 +316,8 @@ body {
   content: "+";
   position: absolute;
   right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 1.5rem;
   color: var(--accent-professional);
   transition: transform 0.3s;
@@ -337,23 +336,24 @@ body {
 }
 
 .faq-item.active .faq-answer {
-  max-height: 300px; /* increased to accommodate longer answers */
+  max-height: 400px;
   padding: 0 25px 20px;
 }
 
 .faq-answer p {
   color: var(--text-secondary);
   line-height: 1.7;
+  margin-top: 15px;
 }
 
-/* Map Placeholder */
+/* --- Map --- */
 .map-placeholder {
   position: relative;
   border-radius: 24px;
   overflow: hidden;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border-light);
-  height: 350px;
+  height: 380px;
 }
 
 .map-placeholder img {
@@ -367,7 +367,7 @@ body {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(transparent, rgba(11, 32, 47, 0.8));
+  background: linear-gradient(transparent, rgba(11, 32, 47, 0.85));
   color: white;
   padding: 30px 25px;
   text-align: center;
@@ -375,13 +375,93 @@ body {
 }
 
 .map-overlay p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   margin: 0;
   word-break: break-word;
 }
 
-/* Footer (dark) */
+/* --- Author Section --- */
+.contact-author {
+  border-top: 1px solid var(--border-light);
+  padding-top: 60px;
+}
+
+.author-card {
+  background: var(--background-light);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 50px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.author-badge {
+  display: inline-block;
+  background: var(--accent-professional);
+  color: white;
+  padding: 6px 18px;
+  border-radius: 40px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+}
+
+.author-card h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.author-title {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.author-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  max-width: 680px;
+  margin: 0 auto 30px;
+  text-align: left;
+}
+
+.author-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.author-link {
+  display: inline-block;
+  background: var(--pure-white);
+  color: var(--accent-professional);
+  border: 1px solid var(--border-light);
+  padding: 10px 20px;
+  border-radius: 40px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.author-link:hover {
+  background: var(--accent-professional);
+  color: white;
+  border-color: var(--accent-professional);
+  transform: translateY(-2px);
+}
+
+/* --- Footer --- */
 .footer {
   background: var(--nav-bg) !important;
   color: var(--nav-text);
@@ -409,10 +489,10 @@ body {
   color: #8fa3b8;
 }
 
-/* Responsive */
+/* --- Responsive --- */
 @media (max-width: 768px) {
   .contact-header h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
   .contact-card {
     grid-template-columns: 1fr;
@@ -420,6 +500,10 @@ body {
   .contact-sidebar {
     border-left: none;
     border-top: 1px solid var(--border-light);
+    padding: 30px;
+  }
+  .contact-form-section {
+    padding: 30px;
   }
   .form-row {
     grid-template-columns: 1fr;
@@ -428,10 +512,14 @@ body {
     grid-template-columns: 1fr;
   }
   .faq-question {
-    font-size: 1rem;
-    padding: 15px 20px;
-  }
-  .faq-answer p {
     font-size: 0.95rem;
+    padding: 15px 20px;
+    padding-right: 45px;
+  }
+  .author-card {
+    padding: 30px 20px;
+  }
+  .author-desc {
+    text-align: center;
   }
 }

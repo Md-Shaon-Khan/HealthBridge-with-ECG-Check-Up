@@ -59,7 +59,6 @@
     </header>
 
     <main class="contact-container">
-      <!-- Original contact card (form + sidebar) - unchanged structure -->
       <div class="contact-card">
         <div class="contact-form-section">
           <form id="medicalContactForm">
@@ -86,12 +85,11 @@
                   type="email"
                   id="email"
                   placeholder="official@mail.com"
-                  required
                 />
               </div>
               <div class="form-group">
                 <label>Phone Number</label>
-                <input type="tel" id="phone" placeholder="+880..." required />
+                <input type="tel" id="phone" placeholder="+880..." />
               </div>
             </div>
 
@@ -122,37 +120,54 @@
         <div class="contact-sidebar">
           <div class="sidebar-item">
             <h3>Clinical Headquarters</h3>
-            <p>123 Medical Plaza, Health District<br />Dhaka, Bangladesh</p>
+            <p>
+              Institute of Information Technology (IIT)<br />
+              Jahangirnagar University<br />
+              Savar, Dhaka-1342<br />
+              Bangladesh
+            </p>
           </div>
           <div class="sidebar-item">
             <h3>Emergency Notice</h3>
             <p>
-              For life-threatening situations, dial 911 or your local emergency
-              line immediately.
+              For life-threatening situations, call immediately:<br />
+              <strong>+880 1567-903274</strong><br />
+              or dial your local emergency line.
+            </p>
+          </div>
+          <div class="sidebar-item">
+            <h3>WhatsApp Support</h3>
+            <p>
+              Send us a message directly on WhatsApp:<br />
+              <a
+                href="https://wa.me/8801633040670"
+                target="_blank"
+                style="color: #2c3e50; font-weight: 700;"
+              >+880 1633-040670</a>
             </p>
           </div>
         </div>
       </div>
 
-      <!-- New Section: Direct Contact Information -->
+      <!-- Direct Contact Channels -->
       <section class="contact-direct">
         <h2>Direct Contact Channels</h2>
         <div class="direct-grid">
           <div class="direct-item">
             <h3>Main Switchboard</h3>
-            <p>+880 1234 567890</p>
+            <p>+880 1633-040670</p>
             <p class="direct-note">
               Available 24/7 for urgent clinical inquiries
             </p>
           </div>
           <div class="direct-item">
             <h3>Email Support</h3>
-            <p>support@healthbridge.com</p>
+            <p>shaon.iit52@gmail.com</p>
             <p class="direct-note">Response within 24 hours on business days</p>
           </div>
           <div class="direct-item">
             <h3>Technical Assistance</h3>
-            <p>tech@healthbridge.com</p>
+            <p>shaon.iit52@gmail.com</p>
             <p class="direct-note">For issues with the portal or AI modules</p>
           </div>
           <div class="direct-item">
@@ -163,71 +178,154 @@
         </div>
       </section>
 
-      <!-- New Section: Frequently Asked Questions (Accordion) -->
+      <!-- FAQ Section -->
       <section class="contact-faq">
         <h2>Frequently Asked Questions</h2>
         <div class="faq-list">
+
           <div class="faq-item">
             <button class="faq-question">
-              How do I access my clinical records?
+              How do I upload an ECG file for AI analysis?
             </button>
             <div class="faq-answer">
               <p>
-                Registered patients can access their records through the patient
-                portal. If you need assistance, please contact technical
-                support.
+                After logging in, navigate to the ECG Test section in your dashboard. You can drag and drop or browse to upload a <strong>.csv</strong> or <strong>.txt</strong> ECG file recorded at 360 Hz. The AI will automatically clean, segment, and classify your signal into one of 8 cardiac conditions.
               </p>
             </div>
           </div>
+
           <div class="faq-item">
             <button class="faq-question">
-              Is the AI diagnostic service covered by insurance?
+              What ECG file format does HealthBridge accept?
             </button>
             <div class="faq-answer">
               <p>
-                Coverage varies by provider. We recommend checking with your
-                insurance company before using the service.
+                HealthBridge accepts <strong>.csv</strong> and <strong>.txt</strong> files containing raw ECG samples. The file must contain at least 3,600 samples (10 seconds of recording at 360 Hz). Files recorded using our Arduino + AD8232 hardware kit are directly compatible.
               </p>
             </div>
           </div>
+
           <div class="faq-item">
             <button class="faq-question">
-              How can I refer a patient to HealthBridge?
+              How accurate is the AI disease prediction?
             </button>
             <div class="faq-answer">
               <p>
-                Physicians can use the referral form in the clinical portal or
-                contact our admissions office directly.
+                The ECG classification model is trained on the MIT-BIH Arrhythmia Database, PTB-XL, and CPSC 2018 datasets using a ResNet1D architecture. The disease prediction model uses vital signs and symptom data. Both models are research-grade tools intended to assist — not replace — clinical diagnosis. Always consult a qualified physician for medical decisions.
               </p>
             </div>
           </div>
+
           <div class="faq-item">
             <button class="faq-question">
-              What should I do in case of a technical issue with the website?
+              How do I register as a patient or doctor?
             </button>
             <div class="faq-answer">
               <p>
-                Please email tech@healthbridge.com with a detailed description
-                and screenshots if possible.
+                Click the Login / Register button on the homepage. Use a Patient ID starting with <strong>PAT-</strong> to register as a patient, or a Doctor ID starting with <strong>DOC-</strong> to register as a doctor. Each role provides access to a separate dashboard with relevant features.
               </p>
             </div>
           </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Can a doctor view my ECG and health reports?
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes. Registered doctors can search for patients by name or Patient ID and view their full report history including ECG analysis, disease prediction results, and risk scores. Doctors can also send clinical feedback and prescriptions directly through the platform.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Is my health data stored securely?
+            </button>
+            <div class="faq-answer">
+              <p>
+                All health data is stored in a MongoDB Atlas cloud database with restricted access. Data is transmitted over HTTPS with SSL encryption. Only authenticated users can access their own records, and only verified doctors can view patient reports.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              What should I do if the AI analysis takes too long?
+            </button>
+            <div class="faq-answer">
+              <p>
+                The first request after a period of inactivity may take up to 60 seconds as the server initializes. Subsequent analyses are significantly faster. If the issue persists, please contact technical support at shaon.iit52@gmail.com or send a WhatsApp message to +880 1633-040670.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              How do I access my clinical records and past reports?
+            </button>
+            <div class="faq-answer">
+              <p>
+                All your AI Predictor and ECG test reports are saved automatically after each analysis. Log in to your patient dashboard and navigate to <strong>My Reports</strong> to view your full history, including condition classifications, risk scores, and doctor prescriptions.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      <!-- New Section: Location (Map Placeholder) -->
+      <!-- Location Section -->
       <section class="contact-map">
         <h2>Our Location</h2>
         <div class="map-placeholder">
           <img
-            src="https://images.unsplash.com/photo-1577415124269-fc1140a69e91?auto=format&fit=crop&w=1200&q=80"
-            alt="Medical district"
+            src="https://webbackend.iitju.edu.bd/uploads/lab_1_665aeb11c1.jpg"
+            alt="Institute of Information Technology, Jahangirnagar University"
           />
           <div class="map-overlay">
-            <p>123 Medical Plaza, Health District, Dhaka</p>
+            <p>
+              Institute of Information Technology (IIT), Jahangirnagar University, Savar, Dhaka-1342, Bangladesh
+            </p>
+          </div>
+        </div>
+        <div class="map-embed">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.738!2d90.2668!3d23.8793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755efd1234567%3A0x0!2sJahangirnagar+University%2C+Savar!5e0!3m2!1sen!2sbd!4v1"
+            width="100%"
+            height="300"
+            style="border:0; border-radius: 16px; margin-top: 20px;"
+            allowfullscreen=""
+            loading="lazy"
+          ></iframe>
+        </div>
+      </section>
+
+      <!-- Author Section -->
+      <section class="contact-author">
+        <div class="author-card">
+          <div class="author-badge">Platform Developer</div>
+          <h2>Md. Shaon Khan</h2>
+          <p class="author-title">
+            Undergraduate Student · B.Sc. in Information Technology<br/>
+            Institute of Information Technology (IIT), Jahangirnagar University
+          </p>
+          <p class="author-desc">
+            HealthBridge is an independent research and development project built as part of academic work at IIT, Jahangirnagar University. The platform integrates IoT hardware (Arduino + AD8232), deep learning (ResNet1D), and a full-stack web application to provide accessible AI-powered cardiac monitoring and disease prediction. The goal is to bridge the gap between clinical intelligence and everyday healthcare access in Bangladesh.
+          </p>
+          <div class="author-links">
+            <a href="mailto:shaon.iit52@gmail.com" class="author-link">
+              shaon.iit52@gmail.com
+            </a>
+            <a href="https://github.com/Md-Shaon-Khan" target="_blank" class="author-link">
+              github.com/Md-Shaon-Khan
+            </a>
+            <a href="https://www.linkedin.com/in/shaon-khan-01003433a/" target="_blank" class="author-link">
+              LinkedIn
+            </a>
           </div>
         </div>
       </section>
+
     </main>
 
     <footer class="footer">
@@ -260,15 +358,13 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2026 HealthBridge Clinical Systems. All rights reserved.</p>
+        <p>&copy; 2026 HealthBridge Clinical Systems. Developed by Md. Shaon Khan, IIT, Jahangirnagar University. All rights reserved.</p>
       </div>
     </footer>
 
     <script src="../script.js"></script>
 
     <script>
-      // 1. Path Adjustment: Remove 'required' from individual fields
-      // to allow your "At least one contact method" logic to work.
       document.getElementById("email").removeAttribute("required");
       document.getElementById("phone").removeAttribute("required");
 
@@ -280,7 +376,6 @@
           const email = document.getElementById("email").value.trim();
           const phone = document.getElementById("phone").value.trim();
 
-          // 2. Frontend Validation: Ensure at least one contact method is provided
           if (!email && !phone) {
             alert(
               "Institutional records require either an Email or Phone Number for communication.",
@@ -298,16 +393,31 @@
           };
 
           try {
-            // 3. URL FIX: Added /api/ to match your FastAPI route
-            const response = await fetch("https://api.ecg-iit-ju-shaon.xyz/api/contact", {
+            // Save to database
+            const response = await fetch("https://ecg-iit-ju-shaon.xyz/api/contact", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(formData),
             });
 
             if (response.ok) {
+              // Send WhatsApp message
+              const waMessage = encodeURIComponent(
+                `*New HealthBridge Inquiry*\n\n` +
+                `*Name:* ${formData.full_name}\n` +
+                `*Medical ID:* ${formData.medical_id || "N/A"}\n` +
+                `*Email:* ${formData.email || "N/A"}\n` +
+                `*Phone:* ${formData.phone || "N/A"}\n` +
+                `*Subject:* ${formData.subject}\n` +
+                `*Message:* ${formData.message}`
+              );
+              window.open(
+                `https://wa.me/8801633040670?text=${waMessage}`,
+                "_blank"
+              );
+
               alert(
-                "Inquiry successfully transmitted to the clinical database.",
+                "Inquiry successfully transmitted to the clinical database. You will be redirected to WhatsApp to complete your submission.",
               );
               e.target.reset();
             } else {
@@ -318,15 +428,19 @@
             }
           } catch (error) {
             alert(
-              "Network Error: Ensure your FastAPI backend is running on port 8000.",
+              "Network Error: Please try again or contact us directly at shaon.iit52@gmail.com",
             );
           }
         });
 
-      // Simple FAQ accordion
+      // FAQ accordion
       document.querySelectorAll(".faq-question").forEach((button) => {
         button.addEventListener("click", () => {
           const faqItem = button.parentElement;
+          // Close others
+          document.querySelectorAll(".faq-item.active").forEach((item) => {
+            if (item !== faqItem) item.classList.remove("active");
+          });
           faqItem.classList.toggle("active");
         });
       });

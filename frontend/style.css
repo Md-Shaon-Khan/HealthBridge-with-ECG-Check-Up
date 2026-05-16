@@ -255,14 +255,15 @@ body {
   position: relative;
   background:
     linear-gradient(
-      100deg,
-      rgba(255, 255, 255, 0.92) 30%,
-      rgba(255, 255, 255, 0.5)
+      120deg,
+      rgba(11, 32, 47, 0.88) 0%,
+      rgba(11, 32, 47, 0.60) 50%,
+      rgba(11, 32, 47, 0.25) 100%
     ),
     url("https://iitju.edu.bd/_next/image?url=https%3A%2F%2Fwebbackend.iitju.edu.bd%2Fuploads%2Fiit_building_fefe01054b.jpg&w=3840&q=75");
   background-size: cover;
-  background-position: center 30%;
-  background-blend-mode: overlay;
+  background-position: center 40%;
+  background-attachment: fixed;
 }
 
 .hero-sidebar-accent {
@@ -278,7 +279,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.55);
+  background: transparent;
   border-radius: 20px;
   max-width: fit-content;
 }
@@ -289,11 +290,11 @@ body {
   line-height: 1.1;
   letter-spacing: -2px;
   margin-bottom: 40px;
-  color: var(--text-primary);
+  color: #ffffff;
 }
 .hero h1 span {
-  color: var(--accent-medical);
-  -webkit-text-fill-color: var(--accent-medical);
+  color: var(--accent-soft);
+  -webkit-text-fill-color: var(--accent-soft);
 }
 
 .hero-body-grid {
@@ -304,18 +305,21 @@ body {
 }
 
 .hero p {
-  color: var(--text-secondary);
+  color: #e0eefb;
   font-size: 1.15rem;
   line-height: 1.7;
   border-left: 4px solid var(--accent-soft);
   padding-left: 24px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(2px);
+  background: rgba(11, 32, 47, 0.45);
+  backdrop-filter: blur(6px);
   border-radius: 0 20px 20px 0;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-right: 16px;
 }
 
 .btn-primary-sharp {
-  background: #0b202f;
+  background: var(--accent-medical);
   color: #fff;
   border: none;
   padding: 22px 46px;
@@ -326,13 +330,13 @@ body {
   text-transform: uppercase;
   letter-spacing: 2px;
   border-radius: 40px;
-  box-shadow: 0 15px 30px -10px rgba(30, 136, 229, 0.3);
+  box-shadow: 0 15px 30px -10px rgba(30, 136, 229, 0.5);
   white-space: nowrap;
 }
 .btn-primary-sharp:hover {
-  background: #000;
+  background: #1565c0;
   transform: translateY(-4px);
-  box-shadow: 0 25px 35px -10px #cedfed;
+  box-shadow: 0 25px 35px -10px rgba(30, 136, 229, 0.4);
 }
 
 /* ══════════════════════════
@@ -675,12 +679,11 @@ body {
     display: flex;
   }
 
-  /* Slide-in sidebar — full width of viewport, no overflow */
   .nav-links {
     position: fixed;
     top: 90px;
     left: -100%;
-    width: 100%; /* full width so nothing bleeds outside */
+    width: 100%;
     max-width: 100%;
     height: calc(100vh - 90px);
     background: var(--nav-bg);
@@ -706,7 +709,6 @@ body {
     border-radius: 0;
   }
 
-  /* Mobile: static flow, hidden by default */
   .dropdown,
   .mega-menu {
     position: static !important;
@@ -730,7 +732,6 @@ body {
     display: block !important;
   }
 
-  /* Mega-menu content padding */
   .mega-menu-content {
     padding: 10px 12px;
   }
@@ -741,7 +742,6 @@ body {
     padding-left: 4px;
   }
 
-  /* ✅ KEY FIX: 2-column grid on mobile, contained within viewport */
   .mega-menu-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
@@ -770,9 +770,10 @@ body {
     padding-left: 34px;
   }
 
-  /* Hero */
+  /* Hero — disable fixed attachment on mobile (performance) */
   .hero {
     min-height: 70vh;
+    background-attachment: scroll;
   }
   .hero-content {
     margin: 16px;

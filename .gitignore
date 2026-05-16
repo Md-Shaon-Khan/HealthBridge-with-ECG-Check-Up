@@ -4,13 +4,13 @@ Run File/
 __pycache__/
 # *.pkl
 *.h5
-*.keras
+# *.keras
 *.dll
 *.pyd
 *.so
 *.zip
 .env
-ECG Saved Model Download from Kaggle/
+# ECG Saved Model Download from Kaggle/
 Main Model Train/
 Health Dataset.csv
 node_modules/

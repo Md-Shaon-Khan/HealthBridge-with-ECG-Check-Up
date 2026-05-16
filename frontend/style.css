@@ -259,7 +259,7 @@ body {
       rgba(255, 255, 255, 0.92) 30%,
       rgba(255, 255, 255, 0.5)
     ),
-    url("medical.jpg");
+    url("https://iitju.edu.bd/_next/image?url=https%3A%2F%2Fwebbackend.iitju.edu.bd%2Fuploads%2Fiit_building_fefe01054b.jpg&w=3840&q=75");
   background-size: cover;
   background-position: center 30%;
   background-blend-mode: overlay;

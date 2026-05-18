@@ -313,13 +313,13 @@ body {
 /* Slide 1 — IIT JU building (original) */
 .slide-1 {
   background-image: url("https://iitju.edu.bd/_next/image?url=https%3A%2F%2Fwebbackend.iitju.edu.bd%2Fuploads%2Fiit_building_fefe01054b.jpg&w=3840&q=75");
-  animation: slideFadeIn 6s ease-in-out infinite;
+  animation: slideFadeIn 10s ease-in-out infinite;
 }
 
 /* Slide 2 — Bangladesh Computer Council */
 .slide-2 {
   background-image: url("https://www.moumachi.com.bd//images/listings/38053/business/20244-bangladesh-computer-council-cover.jpg");
-  animation: slideFadeIn2 6s ease-in-out infinite;
+  animation: slideFadeIn2 10s ease-in-out infinite;
 }
 
 /* Everything above the slides */
@@ -470,6 +470,41 @@ body {
   margin-bottom: 20px;
   display: block;
 }
+.footer-logos {
+  text-align: center;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid var(--dropdown-border);
+}
+.footer-logos-label {
+  display: block;
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+.footer-logos-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.footer-partner-logo {
+  height: 54px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.65;
+  transition: opacity 0.25s, filter 0.25s;
+}
+.footer-partner-logo:hover {
+  opacity: 1;
+  filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(106,183,255,0.5));
+}
+
 .footer-bottom {
   text-align: center;
   margin-top: 70px;

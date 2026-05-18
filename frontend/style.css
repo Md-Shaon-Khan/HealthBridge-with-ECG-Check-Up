@@ -247,23 +247,86 @@ body {
 }
 
 /* ══════════════════════════
-   HERO
+   HERO — BACKGROUND SLIDESHOW
 ══════════════════════════ */
+
+/*
+  Two image slides sit absolutely behind the hero content.
+  slide-1 starts fully visible; slide-2 starts transparent.
+  They alternate with a 6s total cycle (3s each image).
+  Fade transition is 1.5s to feel smooth, not jarring.
+*/
+
+@keyframes slideFadeIn {
+  0%      { opacity: 0; }
+  /* fade in during first 1.5s of the 3s "on" window */
+  25%     { opacity: 1; }
+  /* stay visible for the middle of the cycle */
+  50%     { opacity: 1; }
+  /* fade out during the last 1.5s of the "on" window */
+  75%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
+
+@keyframes slideFadeIn2 {
+  0%      { opacity: 0; }
+  25%     { opacity: 0; }
+  /* slide-2 fades in while slide-1 fades out */
+  50%     { opacity: 1; }
+  75%     { opacity: 1; }
+  /* slide-2 fades out at the end */
+  100%    { opacity: 0; }
+}
+
 .hero {
   min-height: 85vh;
   display: flex;
   position: relative;
-  background:
-    linear-gradient(
-      120deg,
-      rgba(11, 32, 47, 0.88) 0%,
-      rgba(11, 32, 47, 0.60) 50%,
-      rgba(11, 32, 47, 0.25) 100%
-    ),
-    url("https://iitju.edu.bd/_next/image?url=https%3A%2F%2Fwebbackend.iitju.edu.bd%2Fuploads%2Fiit_building_fefe01054b.jpg&w=3840&q=75");
+  overflow: hidden;
+}
+
+/* Dark overlay applied once over the whole hero */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(11, 32, 47, 0.88) 0%,
+    rgba(11, 32, 47, 0.60) 50%,
+    rgba(11, 32, 47, 0.25) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Shared slide styles */
+.hero-bg-slide {
+  position: absolute;
+  inset: 0;
   background-size: cover;
   background-position: center 40%;
   background-attachment: fixed;
+  z-index: 0;
+}
+
+/* Slide 1 — IIT JU building (original) */
+.slide-1 {
+  background-image: url("https://iitju.edu.bd/_next/image?url=https%3A%2F%2Fwebbackend.iitju.edu.bd%2Fuploads%2Fiit_building_fefe01054b.jpg&w=3840&q=75");
+  animation: slideFadeIn 6s ease-in-out infinite;
+}
+
+/* Slide 2 — Bangladesh Computer Council */
+.slide-2 {
+  background-image: url("https://www.moumachi.com.bd//images/listings/38053/business/20244-bangladesh-computer-council-cover.jpg");
+  animation: slideFadeIn2 6s ease-in-out infinite;
+}
+
+/* Everything above the slides */
+.hero-sidebar-accent,
+.hero-content {
+  position: relative;
+  z-index: 2;
 }
 
 .hero-sidebar-accent {
@@ -773,6 +836,8 @@ body {
   /* Hero — disable fixed attachment on mobile (performance) */
   .hero {
     min-height: 70vh;
+  }
+  .hero-bg-slide {
     background-attachment: scroll;
   }
   .hero-content {

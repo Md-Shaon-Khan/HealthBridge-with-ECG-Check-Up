@@ -2887,7 +2887,11 @@ async function handlePredict(e) {
     const userId = localStorage.getItem('userId');
     if (!userId) return alert("Please log in first.");
 
-    const submitBtn = document.querySelector('#predictForm button[type="submit"]') || document.querySelector('#predictForm .btn-send');
+    // বাটনের সুনির্দিষ্ট আইডি রেফারেন্স
+    const submitBtn = document.getElementById('predictSubmitBtn') || 
+                      document.querySelector('#predictForm button[type="submit"]') || 
+                      document.querySelector('#predictForm .btn-send');
+
     if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerText = '⏳ Analyzing... Please Wait';
@@ -2895,7 +2899,6 @@ async function handlePredict(e) {
 
     const resultBox = document.getElementById('predictionResult');
     if (resultBox) {
-        resultBox.classList.add('hidden');
         resultBox.style.display = 'none';
     }
 
@@ -2926,7 +2929,7 @@ async function handlePredict(e) {
         if (res.ok) {
             if (resultBox) {
                 resultBox.classList.remove('hidden');
-                resultBox.style.display = 'block'; // Overrides CSS specificity
+                resultBox.style.setProperty('display', 'block', 'important'); // CSS !important ওভাররাইড
 
                 const predDisease = document.getElementById('predDisease');
                 const predScore = document.getElementById('predScore');
@@ -2955,7 +2958,7 @@ async function handlePredict(e) {
     } finally {
         if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.innerText = 'Predict & Save'; // Exactly matches dashboard.html
+            submitBtn.innerText = 'Predict & Save';
         }
     }
 }

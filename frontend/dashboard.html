@@ -695,8 +695,7 @@
           });
       }
       // Observe DOM changes to keep icons
-      const observer = new MutationObserver(() => addDrugFoodIcons());
-      observer.observe(document.body, { childList: true, subtree: true });
+      
       addDrugFoodIcons();
     </script>
     <script src="dashboard.js?v=999"></script>

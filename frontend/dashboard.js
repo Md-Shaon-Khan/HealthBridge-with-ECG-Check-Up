@@ -3177,6 +3177,8 @@ async function sendAdvice(side) {
 // ─────────────────────────────────────────────────────────────
 // PATIENT HEALTH TREND CHART
 // ─────────────────────────────────────────────────────────────
+let healthChartInstance = null;
+
 async function loadPatientHealthTrend() {
     const patientId = localStorage.getItem('userId');
     const chartEl = document.getElementById('healthChart');
@@ -3187,7 +3189,14 @@ async function loadPatientHealthTrend() {
         const reports = await res.json();
         const regular = reports.filter(r => r.report_type !== 'ecg');
         const recent = regular.slice(0, 7).reverse();
-        new Chart(chartEl, {
+
+        // আগের চার্ট থাকলে ডিলিট করা
+        if (healthChartInstance) {
+            healthChartInstance.destroy();
+            healthChartInstance = null;
+        }
+
+        healthChartInstance = new Chart(chartEl, {
             type: 'line',
             data: {
                 labels: recent.map((_, i) => `Visit ${i + 1}`),
@@ -3199,7 +3208,9 @@ async function loadPatientHealthTrend() {
                 }],
             },
         });
-    } catch (err) { console.error(err); }
+    } catch (err) { 
+        console.error("Health trend loading failed:", err); 
+    }
 }
 
 // ─────────────────────────────────────────────────────────────

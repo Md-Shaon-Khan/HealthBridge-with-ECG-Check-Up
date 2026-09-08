@@ -1,12 +1,3 @@
-// /**
-//  * HealthBridge | Clinical Command Center Logic V10.0
-//  * Features: Role-based default section, active link styling,
-//  *           ECG Test: file upload, signal preview, AI analysis,
-//  *           save to My Reports, doctor ECG history view.
-//  *           Enhanced: two random 10s segment graphs, start time input,
-//  *           abnormal event clock times.
-//  */
-
 // // ─── ECG constants (must match backend / predict_master.py) ───
 // const ECG_SAMPLING_RATE = 360;
 // const ECG_WINDOW_SIZE = ECG_SAMPLING_RATE * 10; // 3 600 samples = 10 s
@@ -284,12 +275,21 @@
 // }
 
 // // ─────────────────────────────────────────────────────────────
-// // AI PREDICTOR HANDLER
+// // AI PREDICTOR HANDLER  ← ONLY THIS FUNCTION WAS CHANGED
 // // ─────────────────────────────────────────────────────────────
 // async function handlePredict(e) {
 //     e.preventDefault();
 //     const userId = localStorage.getItem('userId');
 //     if (!userId) return alert("Please log in first.");
+
+//     // Disable button & show loading state
+//     const submitBtn = document.querySelector('#predictForm button[type="submit"]');
+//     const originalText = submitBtn ? submitBtn.innerText : '';
+//     if (submitBtn) {
+//         submitBtn.disabled = true;
+//         submitBtn.innerText = '⏳ Analyzing... Please Wait';
+//     }
+//     document.getElementById('predictionResult').classList.add('hidden');
 
 //     const inputData = {
 //         user_id: userId,
@@ -329,6 +329,12 @@
 //     } catch (err) {
 //         console.error(err);
 //         alert("Network error.");
+//     } finally {
+//         // Re-enable button after success or error
+//         if (submitBtn) {
+//             submitBtn.disabled = false;
+//             submitBtn.innerText = originalText;
+//         }
 //     }
 // }
 
@@ -855,19 +861,6 @@
 // // ECG TEST — RENDER RESULTS
 // // ─────────────────────────────────────────────────────────────
 // function renderEcgResults(result) {
-//     /*
-//       Expected result shape from backend /api/ecg-predict:
-//       {
-//         top_condition:  string,
-//         top_prob:       float (0–100),
-//         normal_count:   int,
-//         abnormal_count: int,
-//         total_segments: int,
-//         class_probs:    { [className]: float (0–100) },
-//         segments:       [{ seg, start_t, end_t, prediction, confidence }]
-//       }
-//     */
-
 //     const isNorm = result.top_condition === 'Normal';
 
 //     // ── Verdict banner ────────────────────────────────────────
@@ -1085,7 +1078,7 @@
 
 //         if (res.ok) {
 //             document.getElementById('ecgSaveConfirm').classList.remove('hidden');
-//             loadReports(); // Refresh My Reports section in background
+//             loadReports();
 //         } else {
 //             const err = await res.json().catch(() => ({ detail: 'Save failed' }));
 //             alert('Save failed: ' + (err.detail || 'Unknown error'));
@@ -1148,19 +1141,16 @@
 //     if (!signal || signal.length === 0) return;
 
 //     const totalSamples = signal.length;
-//     const windowSamples = ECG_WINDOW_SIZE; // 3600 samples = 10s
+//     const windowSamples = ECG_WINDOW_SIZE;
 //     const maxStartSample = totalSamples - windowSamples;
 //     if (maxStartSample <= 0) {
-//         // Not enough samples to create a 10s segment
 //         showSegmentPlaceholder('ecgSegChart1', 'Insufficient signal length for 10s segment.');
 //         showSegmentPlaceholder('ecgSegChart2', 'Insufficient signal length for 10s segment.');
 //         return;
 //     }
 
-//     // Generate two random start indices
 //     let start1 = Math.floor(Math.random() * (maxStartSample + 1));
 //     let start2 = Math.floor(Math.random() * (maxStartSample + 1));
-//     // Ensure the two segments are different (or at least not identical)
 //     while (start2 === start1 && maxStartSample > 0) {
 //         start2 = Math.floor(Math.random() * (maxStartSample + 1));
 //     }
@@ -1176,11 +1166,9 @@
 //     const endTime1 = (end1 / ECG_SAMPLING_RATE).toFixed(2);
 //     const endTime2 = (end2 / ECG_SAMPLING_RATE).toFixed(2);
 
-//     // Update labels in HTML
 //     document.getElementById('ecgSegLabel1').innerHTML = `Segment (${startTime1}s – ${endTime1}s)`;
 //     document.getElementById('ecgSegLabel2').innerHTML = `Segment (${startTime2}s – ${endTime2}s)`;
 
-//     // Render charts
 //     renderSegmentChart('ecgSegChart1', seg1, startTime1);
 //     renderSegmentChart('ecgSegChart2', seg2, startTime2);
 // }
@@ -1190,18 +1178,16 @@
 //     if (!canvas) return;
 //     const ctx = canvas.getContext('2d');
 
-//     // Destroy existing Chart instance if any
 //     const existing = Chart.getChart(canvas);
 //     if (existing) existing.destroy();
 
-//     // Downsample for smoother rendering (keep about 1000 points per 10s)
 //     const targetPoints = 1000;
 //     let data = signalSegment;
 //     if (signalSegment.length > targetPoints) {
 //         data = downsampleArray(Array.from(signalSegment), targetPoints);
 //     }
 
-//     const timePoints = data.map((_, i) => ((i / data.length) * 10).toFixed(2)); // 0 to 10 seconds
+//     const timePoints = data.map((_, i) => ((i / data.length) * 10).toFixed(2));
 
 //     new Chart(ctx, {
 //         type: 'line',
@@ -1277,17 +1263,9 @@
 //     const startDate = new Date(startISOString);
 //     if (isNaN(startDate)) return null;
 //     const segmentDate = new Date(startDate.getTime() + secondsFromStart * 1000);
-//     return segmentDate.toLocaleString(); // or format as needed
+//     return segmentDate.toLocaleString();
 // }
 
-/**
- * HealthBridge | Clinical Command Center Logic V10.0
- * Features: Role-based default section, active link styling,
- *           ECG Test: file upload, signal preview, AI analysis,
- *           save to My Reports, doctor ECG history view.
- *           Enhanced: two random 10s segment graphs, start time input,
- *           abnormal event clock times.
- */
 
 // ─── ECG constants (must match backend / predict_master.py) ───
 const ECG_SAMPLING_RATE = 360;
@@ -1407,11 +1385,15 @@ async function loadPatientOverview() {
 
         if (data.length > 0) {
             const latest = data[0];
-            document.getElementById('latestDisease').innerText = latest.result_status;
-            document.getElementById('latestRisk').innerText = latest.analysis_score;
+            if (document.getElementById('latestDisease'))
+                document.getElementById('latestDisease').innerText = latest.result_status;
+            if (document.getElementById('latestRisk'))
+                document.getElementById('latestRisk').innerText = latest.analysis_score;
         } else {
-            document.getElementById('latestDisease').innerText = '—';
-            document.getElementById('latestRisk').innerText = '—';
+            if (document.getElementById('latestDisease'))
+                document.getElementById('latestDisease').innerText = '—';
+            if (document.getElementById('latestRisk'))
+                document.getElementById('latestRisk').innerText = '—';
         }
 
         const diseaseCounts = {};
@@ -1421,13 +1403,15 @@ async function loadPatientOverview() {
         });
 
         const rankList = document.getElementById('diseaseRank');
-        rankList.innerHTML = Object.entries(diseaseCounts)
-            .sort((a, b) => b[1] - a[1])
-            .map(([name, count]) => `
-        <div style="font-size:0.85rem;padding:5px 0;border-bottom:1px solid #f1f5f9;">
-          <strong>${name}</strong>: ${count} times
-        </div>
-      `).join('');
+        if (rankList) {
+            rankList.innerHTML = Object.entries(diseaseCounts)
+                .sort((a, b) => b[1] - a[1])
+                .map(([name, count]) => `
+            <div style="font-size:0.85rem;padding:5px 0;border-bottom:1px solid #f1f5f9;">
+              <strong>${name}</strong>: ${count} times
+            </div>
+          `).join('');
+        }
 
     } catch (err) { console.error("Patient insights failed", err); }
 }
@@ -1468,19 +1452,21 @@ async function loadDoctorOverview() {
 async function loadReports() {
     const patientId = localStorage.getItem('userId');
     const reportList = document.getElementById('patientReportList');
+    if (!reportList) return;
 
     try {
         const feedbackRes = await fetch(`https://api.ecg-iit-ju-shaon.xyz/api/get-feedback/${patientId}`);
         const feedback = await feedbackRes.json();
         if (feedback && feedback.message) {
-            document.getElementById('doctorMessageArea').classList.remove('hidden');
-            document.getElementById('feedbackText').innerText = `"${feedback.message}"`;
+            const msgArea = document.getElementById('doctorMessageArea');
+            if (msgArea) msgArea.classList.remove('hidden');
+            const fbText = document.getElementById('feedbackText');
+            if (fbText) fbText.innerText = `"${feedback.message}"`;
         }
 
         const response = await fetch(`https://api.ecg-iit-ju-shaon.xyz/api/reports/${patientId}`);
         const reports = await response.json();
 
-        // Separate ECG reports from regular reports
         const regular = reports.filter(r => r.report_type !== 'ecg');
         const ecg = reports.filter(r => r.report_type === 'ecg');
 
@@ -1566,35 +1552,37 @@ async function loadReports() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// AI PREDICTOR HANDLER  ← ONLY THIS FUNCTION WAS CHANGED
+// AI PREDICTOR HANDLER  ← FULLY BULLETPROOFED
 // ─────────────────────────────────────────────────────────────
 async function handlePredict(e) {
     e.preventDefault();
     const userId = localStorage.getItem('userId');
     if (!userId) return alert("Please log in first.");
 
-    // Disable button & show loading state
-    const submitBtn = document.querySelector('#predictForm button[type="submit"]');
-    const originalText = submitBtn ? submitBtn.innerText : '';
+    // Submit button reference
+    const submitBtn = document.querySelector('#predictForm button[type="submit"]') || document.querySelector('#predictForm button');
+    const originalText = submitBtn ? submitBtn.innerText : 'Predict Disease';
     if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerText = '⏳ Analyzing... Please Wait';
     }
-    document.getElementById('predictionResult').classList.add('hidden');
+
+    const resultBox = document.getElementById('predictionResult');
+    if (resultBox) resultBox.classList.add('hidden');
 
     const inputData = {
         user_id: userId,
-        temperature: parseFloat(document.getElementById('temperature').value),
-        heart_rate: parseFloat(document.getElementById('heart_rate').value),
-        bp_sys: parseFloat(document.getElementById('bp_sys').value),
-        bp_dia: parseFloat(document.getElementById('bp_dia').value),
-        humidity: parseFloat(document.getElementById('humidity').value),
-        fever: parseInt(document.getElementById('fever').value),
-        cough: parseInt(document.getElementById('cough').value),
-        chest_pain: parseInt(document.getElementById('chest_pain').value),
-        shortness_breath: parseInt(document.getElementById('shortness_breath').value),
-        fatigue: parseInt(document.getElementById('fatigue').value),
-        headache: parseInt(document.getElementById('headache').value),
+        temperature: parseFloat(document.getElementById('temperature')?.value || 98.6),
+        heart_rate: parseFloat(document.getElementById('heart_rate')?.value || 75),
+        bp_sys: parseFloat(document.getElementById('bp_sys')?.value || 120),
+        bp_dia: parseFloat(document.getElementById('bp_dia')?.value || 80),
+        humidity: parseFloat(document.getElementById('humidity')?.value || 45),
+        fever: parseInt(document.getElementById('fever')?.value || 0),
+        cough: parseInt(document.getElementById('cough')?.value || 0),
+        chest_pain: parseInt(document.getElementById('chest_pain')?.value || 0),
+        shortness_breath: parseInt(document.getElementById('shortness_breath')?.value || 0),
+        fatigue: parseInt(document.getElementById('fatigue')?.value || 0),
+        headache: parseInt(document.getElementById('headache')?.value || 0),
     };
 
     try {
@@ -1603,25 +1591,50 @@ async function handlePredict(e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(inputData),
         });
+
         const result = await res.json();
+
         if (res.ok) {
-            document.getElementById('predictionResult').classList.remove('hidden');
-            document.getElementById('predDisease').innerText = result.prediction;
-            document.getElementById('predScore').innerText = result.score;
-            document.getElementById('predDrugs').innerText = result.drugs;
-            document.getElementById('predFoods').innerText = result.foods;
-            document.getElementById('predRoutine').innerText = result.routine;
-            loadReports();
-            loadPatientOverview();
-            loadPatientHealthTrend();
+            // রেজাল্ট বক্স দেখানো
+            if (resultBox) resultBox.classList.remove('hidden');
+
+            // সেফ আপডেট (যদি কোনো আইডি না থাকে তবুও স্ক্রিপ্ট থামবে না)
+            const predDiseaseEl = document.getElementById('predDisease');
+            const predScoreEl = document.getElementById('predScore');
+            const predDrugsEl = document.getElementById('predDrugs');
+            const predFoodsEl = document.getElementById('predFoods');
+            const predRoutineEl = document.getElementById('predRoutine');
+
+            if (predDiseaseEl) predDiseaseEl.innerText = result.prediction || '—';
+            if (predScoreEl) predScoreEl.innerText = result.score !== undefined ? result.score : '—';
+            if (predDrugsEl) predDrugsEl.innerText = result.drugs || '—';
+            if (predFoodsEl) predFoodsEl.innerText = result.foods || '—';
+            if (predRoutineEl) predRoutineEl.innerText = result.routine || '—';
+
+            // যদি আপনার HTML-এ ভেতরের এই ID গুলো না থাকে, তবে সরাসরি রেজাল্ট বক্সে রেন্ডার করে দেওয়া
+            if (resultBox && !predDiseaseEl) {
+                resultBox.innerHTML = `
+                    <div style="padding:15px; background:#f8fafc; border-radius:8px; margin-top:15px; border:1px solid #e2e8f0;">
+                        <h3 style="color:#0f172a; margin-bottom:10px;">Prediction: <span style="color:#2563eb;">${result.prediction}</span></h3>
+                        <p style="margin:5px 0;"><strong>Confidence:</strong> ${result.score}%</p>
+                        <p style="margin:5px 0;"><strong>Suggested Drugs:</strong> ${result.drugs}</p>
+                        <p style="margin:5px 0;"><strong>Diet:</strong> ${result.foods}</p>
+                        <p style="margin:5px 0;"><strong>Routine:</strong> ${result.routine}</p>
+                    </div>
+                `;
+            }
+
+            try { loadReports(); } catch(e){}
+            try { loadPatientOverview(); } catch(e){}
+            try { loadPatientHealthTrend(); } catch(e){}
         } else {
-            alert("Prediction failed: " + result.detail);
+            alert("Prediction failed: " + (result.detail || 'Server error'));
         }
     } catch (err) {
-        console.error(err);
-        alert("Network error.");
+        console.error('Prediction API error:', err);
+        alert("Network error: " + err.message);
     } finally {
-        // Re-enable button after success or error
+        // বাটন নিশ্চিতভাবে আগের অবস্থায় ফিরে আসবে
         if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.innerText = originalText;
@@ -1636,12 +1649,15 @@ async function loadAllPatients(side) {
     try {
         const res = await fetch('https://api.ecg-iit-ju-shaon.xyz/api/search-patient?q=');
         const list = await res.json();
-        document.getElementById(`list${side}`).innerHTML = list.map(p => `
-      <div class="registry-item"
-           onclick="selectPatient('${side}','${p.id_str}','${p.name}')">
-        <strong>${p.name}</strong><br><small>${p.id_str}</small>
-      </div>
-    `).join('');
+        const listEl = document.getElementById(`list${side}`);
+        if (listEl) {
+            listEl.innerHTML = list.map(p => `
+              <div class="registry-item"
+                   onclick="selectPatient('${side}','${p.id_str}','${p.name}')">
+                <strong>${p.name}</strong><br><small>${p.id_str}</small>
+              </div>
+            `).join('');
+        }
     } catch (err) { console.error(err); }
 }
 
@@ -1649,9 +1665,12 @@ async function loadAllPatients(side) {
 // DOCTOR: SELECT PATIENT & RENDER CHARTS
 // ─────────────────────────────────────────────────────────────
 async function selectPatient(side, id_str, name) {
-    document.getElementById(`data${side}`).classList.remove('hidden');
-    document.getElementById(`name${side}`).innerText = `${name} // ID: ${id_str}`;
-    document.getElementById(`list${side}`).innerHTML = "";
+    const dataEl = document.getElementById(`data${side}`);
+    if (dataEl) dataEl.classList.remove('hidden');
+    const nameEl = document.getElementById(`name${side}`);
+    if (nameEl) nameEl.innerText = `${name} // ID: ${id_str}`;
+    const listEl = document.getElementById(`list${side}`);
+    if (listEl) listEl.innerHTML = "";
 
     try {
         const response = await fetch(`https://api.ecg-iit-ju-shaon.xyz/api/reports/${id_str}`);
@@ -1663,17 +1682,19 @@ async function selectPatient(side, id_str, name) {
 
             if (regular.length > 0) {
                 renderPatientCharts(side, regular);
-                document.getElementById(`history${side}`).innerHTML = regular.map(r => `
-          <div style="font-size:0.75rem;border-bottom:1px solid #EEE;padding:5px 0;">
-            <strong>${r.result_status}</strong>
-            (${new Date(r.created_at).toLocaleDateString()})<br>
-            <small>Meds: ${r.suggested_drugs}</small><br>
-            <small>Food: ${r.suggested_foods}</small>
-          </div>
-        `).join('');
+                const historyEl = document.getElementById(`history${side}`);
+                if (historyEl) {
+                    historyEl.innerHTML = regular.map(r => `
+                      <div style="font-size:0.75rem;border-bottom:1px solid #EEE;padding:5px 0;">
+                        <strong>${r.result_status}</strong>
+                        (${new Date(r.created_at).toLocaleDateString()})<br>
+                        <small>Meds: ${r.suggested_drugs}</small><br>
+                        <small>Food: ${r.suggested_foods}</small>
+                      </div>
+                    `).join('');
+                }
             }
 
-            // ECG history for doctor panel
             const ecgEl = document.getElementById(`ecgHistory${side}`);
             if (ecgEl) {
                 if (ecg.length > 0) {
@@ -1682,21 +1703,21 @@ async function selectPatient(side, id_str, name) {
                         const isNorm = (r.result_status || '').toLowerCase() === 'normal';
                         const color = ECG_CLASS_COLORS[r.result_status] || '#8686AC';
                         return `
-              <div class="ecg-doctor-report-item">
-                <strong style="color:${color};">${r.result_status}</strong>
-                <span class="ecg-dr-badge ${isNorm ? 'normal' : 'abnormal'}">
-                  ${isNorm ? 'Normal' : 'Abnormal'}
-                </span><br>
-                ${meta ? `<small>Segments: ${meta.total_segments || '—'} &nbsp;|&nbsp;
-                  Normal: ${meta.normal_segments || 0} &nbsp;|&nbsp;
-                  Abnormal: ${meta.abnormal_segments || 0} &nbsp;|&nbsp;
-                  Avg Prob: ${meta.avg_prob || '—'}%</small><br>` : ''}
-                <small style="color:#94a3b8;">
-                  File: ${r.ecg_filename || '—'} &nbsp;|&nbsp;
-                  ${new Date(r.created_at).toLocaleDateString()}
-                </small>
-              </div>
-            `;
+                          <div class="ecg-doctor-report-item">
+                            <strong style="color:${color};">${r.result_status}</strong>
+                            <span class="ecg-dr-badge ${isNorm ? 'normal' : 'abnormal'}">
+                              ${isNorm ? 'Normal' : 'Abnormal'}
+                            </span><br>
+                            ${meta ? `<small>Segments: ${meta.total_segments || '—'} &nbsp;|&nbsp;
+                              Normal: ${meta.normal_segments || 0} &nbsp;|&nbsp;
+                              Abnormal: ${meta.abnormal_segments || 0} &nbsp;|&nbsp;
+                              Avg Prob: ${meta.avg_prob || '—'}%</small><br>` : ''}
+                            <small style="color:#94a3b8;">
+                              File: ${r.ecg_filename || '—'} &nbsp;|&nbsp;
+                              ${new Date(r.created_at).toLocaleDateString()}
+                            </small>
+                          </div>
+                        `;
                     }).join('');
                 } else {
                     ecgEl.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;padding:8px 0;">No ECG reports yet.</p>';
@@ -1709,80 +1730,97 @@ async function selectPatient(side, id_str, name) {
 function renderPatientCharts(side, data) {
     const labels = data.slice(0, 5).reverse().map((_, i) => `T-${i}`);
 
-    new Chart(document.getElementById(`chart${side}_temp`), {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Temp °C',
-                data: data.slice(0, 5).reverse().map(r => r.temperature),
-                borderColor: '#FF6B6B',
-            }],
-        },
-    });
+    const tempCanvas = document.getElementById(`chart${side}_temp`);
+    if (tempCanvas) {
+        new Chart(tempCanvas, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Temp °C',
+                    data: data.slice(0, 5).reverse().map(r => r.temperature),
+                    borderColor: '#FF6B6B',
+                }],
+            },
+        });
+    }
 
-    new Chart(document.getElementById(`chart${side}_bp`), {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [
-                { label: 'SYS', data: data.slice(0, 5).reverse().map(r => r.bp_sys), borderColor: '#4ECDC4' },
-                { label: 'DIA', data: data.slice(0, 5).reverse().map(r => r.bp_dia), borderColor: '#45B7D1' },
-            ],
-        },
-    });
+    const bpCanvas = document.getElementById(`chart${side}_bp`);
+    if (bpCanvas) {
+        new Chart(bpCanvas, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    { label: 'SYS', data: data.slice(0, 5).reverse().map(r => r.bp_sys), borderColor: '#4ECDC4' },
+                    { label: 'DIA', data: data.slice(0, 5).reverse().map(r => r.bp_dia), borderColor: '#45B7D1' },
+                ],
+            },
+        });
+    }
 
-    new Chart(document.getElementById(`chart${side}_hr`), {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [{
-                label: 'BPM',
-                data: data.slice(0, 5).reverse().map(r => r.heart_rate),
-                borderColor: '#8686AC',
-            }],
-        },
-    });
+    const hrCanvas = document.getElementById(`chart${side}_hr`);
+    if (hrCanvas) {
+        new Chart(hrCanvas, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'BPM',
+                    data: data.slice(0, 5).reverse().map(r => r.heart_rate),
+                    borderColor: '#8686AC',
+                }],
+            },
+        });
+    }
 
-    const symptomNames = ['Fever', 'Cough', 'Chest Pain', 'SOB', 'Fatigue', 'Headache'];
-    const counts = [0, 0, 0, 0, 0, 0];
-    data.forEach(r => {
-        if (r.fever > 0) counts[0]++;
-        if (r.cough > 0) counts[1]++;
-        if (r.chest_pain > 0) counts[2]++;
-        if (r.shortness_breath > 0) counts[3]++;
-        if (r.fatigue > 0) counts[4]++;
-        if (r.headache > 0) counts[5]++;
-    });
+    const sympCanvas = document.getElementById(`chart${side}_symptoms`);
+    if (sympCanvas) {
+        const symptomNames = ['Fever', 'Cough', 'Chest Pain', 'SOB', 'Fatigue', 'Headache'];
+        const counts = [0, 0, 0, 0, 0, 0];
+        data.forEach(r => {
+            if (r.fever > 0) counts[0]++;
+            if (r.cough > 0) counts[1]++;
+            if (r.chest_pain > 0) counts[2]++;
+            if (r.shortness_breath > 0) counts[3]++;
+            if (r.fatigue > 0) counts[4]++;
+            if (r.headache > 0) counts[5]++;
+        });
 
-    new Chart(document.getElementById(`chart${side}_symptoms`), {
-        type: 'bar',
-        data: {
-            labels: symptomNames,
-            datasets: [{
-                label: 'Visits with symptom',
-                data: counts,
-                backgroundColor: '#8686AC',
-            }],
-        },
-    });
+        new Chart(sympCanvas, {
+            type: 'bar',
+            data: {
+                labels: symptomNames,
+                datasets: [{
+                    label: 'Visits with symptom',
+                    data: counts,
+                    backgroundColor: '#8686AC',
+                }],
+            },
+        });
+    }
 }
 
 // ─────────────────────────────────────────────────────────────
 // DOCTOR: LIVE SEARCH
 // ─────────────────────────────────────────────────────────────
 async function liveSearch(side) {
-    const q = document.getElementById(`input${side}`).value;
+    const inputEl = document.getElementById(`input${side}`);
+    if (!inputEl) return;
+    const q = inputEl.value;
     if (q.length < 2) { loadAllPatients(side); return; }
     try {
         const res = await fetch(`https://api.ecg-iit-ju-shaon.xyz/api/search-patient?q=${q}`);
         const list = await res.json();
-        document.getElementById(`list${side}`).innerHTML = list.map(p => `
-      <div class="registry-item"
-           onclick="selectPatient('${side}','${p.id_str}','${p.name}')">
-        <strong>${p.name}</strong><br><small>${p.id_str}</small>
-      </div>
-    `).join('');
+        const listEl = document.getElementById(`list${side}`);
+        if (listEl) {
+            listEl.innerHTML = list.map(p => `
+              <div class="registry-item"
+                   onclick="selectPatient('${side}','${p.id_str}','${p.name}')">
+                <strong>${p.name}</strong><br><small>${p.id_str}</small>
+              </div>
+            `).join('');
+        }
     } catch (err) { console.error(err); }
 }
 
@@ -1790,8 +1828,11 @@ async function liveSearch(side) {
 // DOCTOR: SEND MESSAGE
 // ─────────────────────────────────────────────────────────────
 async function sendAdvice(side) {
-    const pId = document.getElementById(`name${side}`).innerText.split('ID: ')[1];
-    const msg = document.getElementById(`msg${side}`).value;
+    const nameEl = document.getElementById(`name${side}`);
+    if (!nameEl) return;
+    const pId = nameEl.innerText.split('ID: ')[1];
+    const msgEl = document.getElementById(`msg${side}`);
+    const msg = msgEl ? msgEl.value : '';
     if (!msg) return alert("Please type a message.");
 
     try {
@@ -1806,7 +1847,7 @@ async function sendAdvice(side) {
         });
         if (response.ok) {
             alert("Message sent to patient.");
-            document.getElementById(`msg${side}`).value = "";
+            if (msgEl) msgEl.value = "";
             loadDoctorOverview();
         }
     } catch (err) { alert("Sending failed."); }
@@ -1817,12 +1858,15 @@ async function sendAdvice(side) {
 // ─────────────────────────────────────────────────────────────
 async function loadPatientHealthTrend() {
     const patientId = localStorage.getItem('userId');
+    const chartEl = document.getElementById('healthChart');
+    if (!chartEl) return;
+
     try {
         const res = await fetch(`https://api.ecg-iit-ju-shaon.xyz/api/reports/${patientId}`);
         const reports = await res.json();
         const regular = reports.filter(r => r.report_type !== 'ecg');
         const recent = regular.slice(0, 7).reverse();
-        new Chart(document.getElementById('healthChart'), {
+        new Chart(chartEl, {
             type: 'line',
             data: {
                 labels: recent.map((_, i) => `Visit ${i + 1}`),
@@ -1906,16 +1950,19 @@ function escapeHtml(unsafe) {
 
 function ecgDragOver(e) {
     e.preventDefault();
-    document.getElementById('ecgDropzone').classList.add('drag-over');
+    const dz = document.getElementById('ecgDropzone');
+    if (dz) dz.classList.add('drag-over');
 }
 
 function ecgDragLeave(e) {
-    document.getElementById('ecgDropzone').classList.remove('drag-over');
+    const dz = document.getElementById('ecgDropzone');
+    if (dz) dz.classList.remove('drag-over');
 }
 
 function ecgDrop(e) {
     e.preventDefault();
-    document.getElementById('ecgDropzone').classList.remove('drag-over');
+    const dz = document.getElementById('ecgDropzone');
+    if (dz) dz.classList.remove('drag-over');
     const files = e.dataTransfer.files;
     if (files && files.length > 0) processEcgFile(files[0]);
 }
@@ -1939,10 +1986,8 @@ function processEcgFile(file) {
     document.getElementById('ecgFileInfo').classList.remove('hidden');
     document.getElementById('ecgAnalyzeBtn').classList.remove('hidden');
 
-    // Show the recording start time input
     document.getElementById('ecgTimeInputArea').classList.remove('hidden');
 
-    // Reset previous state
     document.getElementById('ecgSignalCard').classList.add('hidden');
     document.getElementById('ecgResultCard').classList.add('hidden');
     document.getElementById('ecgSaveConfirm').classList.add('hidden');
@@ -1951,7 +1996,6 @@ function processEcgFile(file) {
     ecgRawData = null;
     ecgAnalysisResult = null;
 
-    // Immediately parse and show waveform preview
     readEcgFileAndPreview(file);
 }
 
@@ -2008,7 +2052,6 @@ function readEcgFileAndPreview(file) {
             ecgRawData = new Float64Array(values);
             hideEcgStatus();
             renderEcgWaveform(ecgRawData, file.name);
-            // Render two random 10-second segments for visual inspection
             renderRandomSegmentGraphs(ecgRawData);
 
         } catch (err) {
@@ -2029,7 +2072,6 @@ function renderEcgWaveform(data, filename) {
     document.getElementById('ecgStatSR').innerText = `${ECG_SAMPLING_RATE} Hz`;
     document.getElementById('ecgSignalTitle').innerText = `ECG Waveform — ${filename}`;
 
-    // Downsample to 3000 points for smooth rendering
     const ds = downsampleArray(Array.from(data), 3000);
     const timeX = ds.map((_, i) => ((i / 3000) * totalSec).toFixed(2));
 
@@ -2112,10 +2154,9 @@ async function analyzeEcg() {
         formData.append('file', ecgSelectedFile);
         formData.append('user_id', localStorage.getItem('userId') || '');
 
-        // Capture the recording start time (if any)
         const startTimeInput = document.getElementById('ecgStartTime');
         if (startTimeInput && startTimeInput.value) {
-            ecgStartTimeValue = startTimeInput.value; // store ISO string
+            ecgStartTimeValue = startTimeInput.value;
             formData.append('start_time', ecgStartTimeValue);
         } else {
             ecgStartTimeValue = null;
@@ -2154,7 +2195,6 @@ async function analyzeEcg() {
 function renderEcgResults(result) {
     const isNorm = result.top_condition === 'Normal';
 
-    // ── Verdict banner ────────────────────────────────────────
     const banner = document.getElementById('ecgVerdictBanner');
     banner.className = 'ecg-verdict-banner ' +
         (isNorm ? 'condition-normal'
@@ -2169,7 +2209,6 @@ function renderEcgResults(result) {
     document.getElementById('ecgVerdictAbnormal').innerText =
         `${result.abnormal_count} / ${result.total_segments}`;
 
-    // ── Probability bar chart ─────────────────────────────────
     const classProbs = result.class_probs || {};
     const sortedNames = Object.keys(classProbs).sort((a, b) => classProbs[b] - classProbs[a]);
     const sortedVals = sortedNames.map(n => parseFloat(classProbs[n]).toFixed(1));
@@ -2209,7 +2248,6 @@ function renderEcgResults(result) {
         },
     });
 
-    // ── Confidence over time chart ────────────────────────────
     const segs = result.segments || [];
     const confTimes = segs.map(s => s.start_t);
     const confVals = segs.map(s => (s.confidence * 100).toFixed(1));
@@ -2258,7 +2296,6 @@ function renderEcgResults(result) {
         },
     });
 
-    // ── Segment table with clock times ─────────────────────────
     const hasStartTime = !!ecgStartTimeValue;
     const timeHeader = document.getElementById('ecgTableTimeHeader');
     if (timeHeader) {
@@ -2298,7 +2335,6 @@ function renderEcgResults(result) {
     `;
     }).join('');
 
-    // ── Abnormal time log ─────────────────────────────────────
     if (hasStartTime) {
         const abnormalIndices = [];
         segs.forEach((s, idx) => {
